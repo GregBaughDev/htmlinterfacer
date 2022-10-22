@@ -1,6 +1,7 @@
 module com.htmlinterfacer.htmlinterfacer {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.web;
 
 
     opens com.htmlinterfacer.htmlinterfacer to javafx.fxml;

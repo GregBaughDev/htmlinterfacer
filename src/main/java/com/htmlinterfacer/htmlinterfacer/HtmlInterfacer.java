@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.web.HTMLEditor;
 
 import java.io.IOException;
 
@@ -15,6 +16,7 @@ public class HtmlInterfacer extends Application {
         this.primaryStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(HtmlInterfacer.class.getResource("home.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        scene.getStylesheets().add(getClass().getResource("/home.css").toExternalForm());
 
         stage.setTitle("HTMLinterfacer");
         stage.setScene(scene);

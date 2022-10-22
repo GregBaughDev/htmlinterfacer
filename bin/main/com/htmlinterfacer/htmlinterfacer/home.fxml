@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.web.HTMLEditor?>
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.htmlinterfacer.htmlinterfacer.controller.HomeController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.web.WebView?>
+<GridPane fx:controller="com.htmlinterfacer.htmlinterfacer.controller.HomeController" xmlns:fx="http://javafx.com/fxml"
+          alignment="CENTER" hgap="10" vgap="10">
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+    <VBox GridPane.columnIndex="0" GridPane.columnSpan="2" id="file-box">
+        <Text text="Files here"></Text>
+        <Button text="Show HTML" onAction="#onHtmlButtonClick"></Button>
+        <Button text="Show HTML2" onAction="#onHtmlButtonClick2"></Button>
+        <Button text="Show HTML3" onAction="#onHtmlButtonClick3"></Button>
+    </VBox>
+
+    <VBox GridPane.columnIndex="2" GridPane.columnSpan="4" id="editor-box">
+        <Text text="Editor here"></Text>
+        <HTMLEditor fx:id="htmlEditor"></HTMLEditor>
+        <WebView fx:id="webView"></WebView>
+    </VBox>
+
+</GridPane>
