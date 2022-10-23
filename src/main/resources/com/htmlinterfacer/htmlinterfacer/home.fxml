@@ -10,16 +10,19 @@
 <GridPane fx:controller="com.htmlinterfacer.htmlinterfacer.controller.HomeController" xmlns:fx="http://javafx.com/fxml"
           alignment="CENTER" hgap="10" vgap="10">
 
-    <VBox GridPane.columnIndex="0" GridPane.columnSpan="2" id="file-box">
+    <VBox GridPane.columnIndex="0" GridPane.columnSpan="2" fx:id="fileBox">
         <Text text="Files here"></Text>
-        <Button text="Show HTML" onAction="#onHtmlButtonClick"></Button>
-        <Button text="Show HTML2" onAction="#onHtmlButtonClick2"></Button>
-        <Button text="Show HTML3" onAction="#onHtmlButtonClick3"></Button>
+        <Button fx:id="toggleView" text="Edit file" onAction="#onToggleViewClick"></Button>
+        <Button fx:id="testBtn" text="Test" onAction="#test"></Button>
     </VBox>
 
-    <VBox GridPane.columnIndex="2" GridPane.columnSpan="4" id="editor-box">
-        <Text text="Editor here"></Text>
+    <VBox GridPane.columnIndex="2" GridPane.columnSpan="4" fx:id="editorBox" visible="false">
+        <Text text="Editor view"></Text>
         <HTMLEditor fx:id="htmlEditor"></HTMLEditor>
+    </VBox>
+
+    <VBox GridPane.columnIndex="2" GridPane.columnSpan="4" fx:id="viewBox" visible="true">
+        <Text text="File view"></Text>
         <WebView fx:id="webView"></WebView>
     </VBox>
 
