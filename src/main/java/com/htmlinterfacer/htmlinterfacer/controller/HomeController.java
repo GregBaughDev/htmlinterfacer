@@ -1,6 +1,8 @@
 package com.htmlinterfacer.htmlinterfacer.controller;
 
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -8,7 +10,6 @@ import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebView;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,27 +47,17 @@ public class HomeController {
 
     List<String> htmlStrings = Arrays.asList(test, test2, test3);
 
+    EventHandler<ActionEvent> handleFileChange(Integer index) {
+        // Currently this is being ran setting up the buttons -> fix
+        System.out.println(index + " index is");
+        htmlEditor.setHtmlText(htmlStrings.get(index));
+        webView.getEngine().loadContent(htmlStrings.get(index));
+        return null;
+    };
+
     @FXML
     protected void onHelloButtonClick() throws IOException {
         HtmlInterfacer.sceneChange("test.fxml");
-    }
-
-    @FXML
-    protected void onHtmlButtonClick() {
-        htmlEditor.setHtmlText(test);
-        webView.getEngine().loadContent(test);
-    }
-
-    @FXML
-    protected void onHtmlButtonClick2() {
-        htmlEditor.setHtmlText(test2);
-        webView.getEngine().loadContent(test2);
-    }
-
-    @FXML
-    protected void onHtmlButtonClick3() {
-        htmlEditor.setHtmlText(test3);
-        webView.getEngine().loadContent(test3);
     }
 
     @FXML
@@ -90,7 +81,7 @@ public class HomeController {
             Integer currValue = i;
             Button stringButton = new Button(currValue.toString());
             stringButton.setId(currValue.toString());
-            stringButton.setOnAction(e -> System.out.println(e));
+            stringButton.setOnAction(handleFileChange(currValue));
             fileBox.getChildren().add(stringButton);
         }
     }
