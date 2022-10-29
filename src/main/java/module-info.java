@@ -2,6 +2,8 @@ module com.htmlinterfacer.htmlinterfacer {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
+    requires org.kohsuke.github.api;
+    requires com.fasterxml.jackson.databind;
 
 
     opens com.htmlinterfacer.htmlinterfacer to javafx.fxml;
