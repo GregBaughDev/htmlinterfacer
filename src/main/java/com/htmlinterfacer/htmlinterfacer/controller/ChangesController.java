@@ -15,4 +15,6 @@ public class ChangesController {
     protected void switchView() throws IOException {
         HtmlInterfacer.sceneChange("home.fxml");
     }
+
+    // Loop through the HtmlFileList and get all where isAltered == true
 }

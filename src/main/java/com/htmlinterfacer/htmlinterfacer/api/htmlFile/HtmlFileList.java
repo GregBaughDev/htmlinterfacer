@@ -1,15 +1,20 @@
 package com.htmlinterfacer.htmlinterfacer.api.htmlFile;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class HtmlFileList {
-    private final List<HtmlFile> htmlFiles;
+    private static final List<HtmlFile> htmlFiles = Arrays.asList();
 
-    public HtmlFileList(List<HtmlFile> htmlFiles) {
-        this.htmlFiles = htmlFiles;
+    public static void addToHtmlList(HtmlFile html) {
+        htmlFiles.add(html);
     }
 
-    List<HtmlFile> getHtmlFiles() {
-        return this.htmlFiles;
+    public static List<HtmlFile> getHtmlFiles() {
+        return htmlFiles;
+    }
+
+    public static HtmlFile getHtmlFile(Integer index) {
+        return htmlFiles.get(index);
     }
 }

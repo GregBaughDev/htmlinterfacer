@@ -7,8 +7,9 @@
 <?import javafx.scene.web.HTMLEditor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.web.WebView?>
+<?import javafx.scene.control.TextArea?>
 <GridPane fx:controller="com.htmlinterfacer.htmlinterfacer.controller.HomeController" xmlns:fx="http://javafx.com/fxml"
-          alignment="CENTER" hgap="10" vgap="10">
+          alignment="CENTER" hgap="10" vgap="10" prefHeight="800" prefWidth="1000">
 
     <VBox GridPane.columnIndex="0" GridPane.columnSpan="2" fx:id="fileBox">
         <Text text="Files here"></Text>
@@ -18,15 +19,21 @@
 <!--        <Button fx:id="treeBtn" text="Tree" onAction="#tree"></Button>-->
     </VBox>
 
+<!--    <VBox GridPane.columnIndex="2" GridPane.columnSpan="4" fx:id="editorBox" visible="false">-->
+<!--        <Text text="Editor view"></Text>-->
+<!--        <HTMLEditor fx:id="htmlEditor"></HTMLEditor>-->
+<!--        <Button fx:id="saveBtn" text="Save" onAction="#save"></Button>-->
+<!--    </VBox>-->
+
     <VBox GridPane.columnIndex="2" GridPane.columnSpan="4" fx:id="editorBox" visible="false">
         <Text text="Editor view"></Text>
-        <HTMLEditor fx:id="htmlEditor"></HTMLEditor>
+        <TextArea fx:id="textArea" prefHeight="800"></TextArea>
         <Button fx:id="saveBtn" text="Save" onAction="#save"></Button>
     </VBox>
 
     <VBox GridPane.columnIndex="2" GridPane.columnSpan="4" fx:id="viewBox" visible="true">
         <Text text="File view"></Text>
-        <WebView fx:id="webView"></WebView>
+        <WebView fx:id="webView" prefHeight="800"></WebView>
     </VBox>
 
 </GridPane>

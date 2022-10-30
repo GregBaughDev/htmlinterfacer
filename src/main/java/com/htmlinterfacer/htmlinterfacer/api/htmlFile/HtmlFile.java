@@ -12,8 +12,8 @@ public class HtmlFile {
         this.updatedHtml = html;
     }
 
-    public Boolean isAltered (String originalHtml) {
-        return this.isAltered = originalHtml.length() == updatedHtml.length();
+    public Boolean isAltered () {
+        return this.originalHtml.length() != this.updatedHtml.length();
     }
 
     public void setUpdatedHtml (String updatedHtml) {

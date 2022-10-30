@@ -19,8 +19,12 @@ public class HtmlInterfacer extends Application {
 
         stage.setTitle("HTMLinterfacer");
         stage.setScene(scene);
-        stage.setMaximized(true);
+        stage.setMinHeight(800);
+        stage.setMinWidth(1000);
+        stage.setResizable(false);
+        // Set up a function to populate the HTML files and add to HtmlFileList
         stage.show();
+        initialiser.initialise();
     }
 
     public static void main(String[] args) {
@@ -28,8 +32,10 @@ public class HtmlInterfacer extends Application {
     }
 
     public static void sceneChange(String fxml) throws IOException {
+        // Try to reuse this and return the scene, save to var and pass to stage
         FXMLLoader fxmlLoader = new FXMLLoader(HtmlInterfacer.class.getResource(fxml));
         Scene newScene = new Scene(fxmlLoader.load());
+        newScene.getStylesheets().add(HtmlInterfacer.class.getResource("/home.css").toExternalForm());
         primaryStage.setScene(newScene);
     }
 }
