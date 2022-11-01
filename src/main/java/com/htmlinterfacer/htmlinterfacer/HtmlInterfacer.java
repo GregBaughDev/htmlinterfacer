@@ -11,7 +11,7 @@ public class HtmlInterfacer extends Application {
     private static Stage primaryStage;
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws Exception {
         this.primaryStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(HtmlInterfacer.class.getResource("home.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
@@ -24,7 +24,6 @@ public class HtmlInterfacer extends Application {
         stage.setResizable(false);
         // Set up a function to populate the HTML files and add to HtmlFileList
         stage.show();
-        initialiser.initialise();
     }
 
     public static void main(String[] args) {

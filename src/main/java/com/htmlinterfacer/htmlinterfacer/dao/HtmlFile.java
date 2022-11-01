@@ -1,11 +1,9 @@
-package com.htmlinterfacer.htmlinterfacer.api.htmlFile;
+package com.htmlinterfacer.htmlinterfacer.dao;
 
 public class HtmlFile {
     private final String originalHtml;
 
     private String updatedHtml;
-
-    private Boolean isAltered;
 
     public HtmlFile (String html) {
         this.originalHtml = html;
