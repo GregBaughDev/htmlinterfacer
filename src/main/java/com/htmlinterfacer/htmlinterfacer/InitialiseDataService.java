@@ -5,9 +5,16 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
+import java.io.IOException;
+
 public class InitialiseDataService extends Service<ObservableList<HtmlFile>> {
     @Override
     protected Task<ObservableList<HtmlFile>> createTask() {
-        return new Initialiser();
+        try {
+            return new Initialiser();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

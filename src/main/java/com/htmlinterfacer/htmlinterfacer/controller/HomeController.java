@@ -53,36 +53,35 @@ public class HomeController {
 
     private Initialiser initialiser = new Initialiser();
 
-    public void initialize() {
-        initialiser.createBackgroundThread(htmlFileList);
-        // Look for a way to call the below
-        if (!initialiser.getBackgroundThread().isRunning()) {
-            for (int i = 0; i < htmlFileList.size(); i++) {
-                Integer currValue = i;
-                Button stringButton = new Button(currValue.toString());
-                stringButton.setId(currValue.toString());
-                stringButton.setOnAction(e -> handleFileChange(currValue));
-                fileBox.getChildren().add(stringButton);
-            }
-            webView.getEngine().loadContent(htmlFileList.get(currentFile).getUpdatedHtml());
+    public HomeController() throws IOException {
+    }
+
+    public void initialize() throws InterruptedException {
+        Boolean backgroundThreadSuccess = initialiser.createBackgroundThread(htmlFileList);
+        if (backgroundThreadSuccess) {
+            initialiser.getBackgroundThread().setOnSucceeded(evt -> {
+                for (int i = 0; i < htmlFileList.size(); i++) {
+                    System.out.println("The inside of the loop");
+                    Integer currValue = i;
+                    Button stringButton = new Button(currValue.toString());
+                    stringButton.setId(currValue.toString());
+                    stringButton.setOnAction(e -> handleFileChange(currValue));
+                    fileBox.getChildren().add(stringButton);
+                }
+            });
         }
     }
     // Make a new variable for currently updated string and edit it
-    // Grab all files and create a button for each one
     // Check what it's like when pushing back to git
     // Create an area to look at the current changes
     // Push them to GH for PR review
 
-//    GHConnection test4 = new GHConnection();
-//    HtmlFile inputStream = new HtmlFile(new String(test4.getRepo().read().readAllBytes()));
-//    String test5 = new String(test4.getRepo2().read().readAllBytes());
-
-    EventHandler<ActionEvent> handleFileChange(Integer index) {
+    public EventHandler<ActionEvent> handleFileChange(Integer index) {
         currentFile = index;
         textArea.setText(htmlFileList.get(currentFile).getUpdatedHtml());
         webView.getEngine().loadContent(htmlFileList.get(currentFile).getUpdatedHtml());
         return null;
-    };
+    }
 
     @FXML
     protected void onToggleViewClick() {
@@ -97,20 +96,6 @@ public class HomeController {
             editorBox.setVisible(false);
             webView.getEngine().loadContent(htmlFileList.get(currentFile).getUpdatedHtml());
         }
-    }
-
-    @FXML
-    protected void test() {
-        // Find a way to label the buttons -> use getPath to label the buttons
-        // Find a way to do this on load -> move to another class when the API info returns
-        for (int i = 0; i < htmlFileList.size(); i++) {
-            Integer currValue = i;
-            Button stringButton = new Button(currValue.toString());
-            stringButton.setId(currValue.toString());
-            stringButton.setOnAction(e -> handleFileChange(currValue));
-            fileBox.getChildren().add(stringButton);
-        }
-        webView.getEngine().loadContent(htmlFileList.get(currentFile).getUpdatedHtml());
     }
 
 //    @FXML

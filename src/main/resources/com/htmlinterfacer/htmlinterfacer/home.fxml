@@ -15,7 +15,6 @@
         <Text text="Files here"></Text>
         <Button fx:id="viewChanges" text="View changed files" onAction="#viewChangesList"></Button>
         <Button fx:id="toggleView" text="Edit file" onAction="#onToggleViewClick"></Button>
-        <Button fx:id="testBtn" text="Test" onAction="#test"></Button>
 <!--        <Button fx:id="treeBtn" text="Tree" onAction="#tree"></Button>-->
     </VBox>
 
