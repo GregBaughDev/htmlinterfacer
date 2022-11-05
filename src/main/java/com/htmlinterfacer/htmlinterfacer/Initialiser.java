@@ -21,33 +21,27 @@ public class Initialiser extends Task {
     private HtmlFile repo1 = new HtmlFile(new String(ghConnection.getRepo().read().readAllBytes()));
     private HtmlFile repo2 = new HtmlFile(new String(ghConnection.getRepo2().read().readAllBytes()));
     // Return the list of htmlFiles to loop over - the above should be done in the GHConnection
-    List<HtmlFile> htmlFiles = List.of(test, test2, test3);
-
+//    List<HtmlFile> htmlFiles = List.of(test, test2, test3);
+    List<HtmlFile> htmlFiles = List.of(repo1, repo2);
     public Initialiser() throws IOException {
     }
 
-    public Boolean createBackgroundThread(ObservableList<HtmlFile> htmlFileList) {
-        try {
-            backgroundThread = new Service<Void>() {
-                @Override
-                protected Task<Void> createTask() {
-                    return new Task<Void>() {
-                        @Override
-                        protected Void call() throws Exception {
-                            for(HtmlFile htmlFile : htmlFiles) {
-                                htmlFileList.add(htmlFile);
-                            }
-                            return null;
+    public void createBackgroundThread(ObservableList<HtmlFile> htmlFileList) {
+        backgroundThread = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        for (HtmlFile htmlFile : htmlFiles) {
+                            htmlFileList.add(htmlFile);
                         }
-                    };
-                }
-            };
-            backgroundThread.start();
-            return true;
-        } catch (Exception e) {
-            backgroundThread.cancel();
-            return false;
-        }
+                        return null;
+                    }
+                };
+            }
+        };
+        backgroundThread.start();
     }
 
     public Service<Void> getBackgroundThread() {

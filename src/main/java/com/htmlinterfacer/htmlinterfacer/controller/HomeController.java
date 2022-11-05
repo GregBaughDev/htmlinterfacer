@@ -57,19 +57,19 @@ public class HomeController {
     }
 
     public void initialize() throws InterruptedException {
-        Boolean backgroundThreadSuccess = initialiser.createBackgroundThread(htmlFileList);
-        if (backgroundThreadSuccess) {
-            initialiser.getBackgroundThread().setOnSucceeded(evt -> {
-                for (int i = 0; i < htmlFileList.size(); i++) {
-                    System.out.println("The inside of the loop");
-                    Integer currValue = i;
-                    Button stringButton = new Button(currValue.toString());
-                    stringButton.setId(currValue.toString());
-                    stringButton.setOnAction(e -> handleFileChange(currValue));
-                    fileBox.getChildren().add(stringButton);
-                }
-            });
-        }
+        initialiser.createBackgroundThread(htmlFileList);
+        initialiser.getBackgroundThread().setOnSucceeded(evt -> {
+            for (int i = 0; i < htmlFileList.size(); i++) {
+                Integer currValue = i;
+                Button stringButton = new Button(currValue.toString());
+                stringButton.setId(currValue.toString());
+                stringButton.setOnAction(e -> handleFileChange(currValue));
+                fileBox.getChildren().add(stringButton);
+            }
+        });
+        initialiser.getBackgroundThread().setOnFailed(evt -> {
+            System.out.println("Thread failed");
+        });
     }
     // Make a new variable for currently updated string and edit it
     // Check what it's like when pushing back to git
