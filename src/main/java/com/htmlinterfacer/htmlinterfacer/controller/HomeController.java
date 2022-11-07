@@ -49,17 +49,15 @@ public class HomeController {
 
     private Integer currentFile = 0;
 
-    private ObservableList<HtmlFile> htmlFileList = FXCollections.observableArrayList();
-
     private Initialiser initialiser = new Initialiser();
 
     public HomeController() throws IOException {
     }
-
+    // Only call once
     public void initialize() throws InterruptedException {
-        initialiser.createBackgroundThread(htmlFileList);
+        initialiser.createBackgroundThread(ParentController.parentHtmlFileList);
         initialiser.getBackgroundThread().setOnSucceeded(evt -> {
-            for (int i = 0; i < htmlFileList.size(); i++) {
+            for (int i = 0; i < ParentController.parentHtmlFileList.size(); i++) {
                 Integer currValue = i;
                 Button stringButton = new Button(currValue.toString());
                 stringButton.setId(currValue.toString());
@@ -78,8 +76,8 @@ public class HomeController {
 
     public EventHandler<ActionEvent> handleFileChange(Integer index) {
         currentFile = index;
-        textArea.setText(htmlFileList.get(currentFile).getUpdatedHtml());
-        webView.getEngine().loadContent(htmlFileList.get(currentFile).getUpdatedHtml());
+        textArea.setText(ParentController.parentHtmlFileList.get(currentFile).getUpdatedHtml());
+        webView.getEngine().loadContent(ParentController.parentHtmlFileList.get(currentFile).getUpdatedHtml());
         return null;
     }
 
@@ -89,12 +87,12 @@ public class HomeController {
             toggleView.setText("View file");
             viewBox.setVisible(false);
             editorBox.setVisible(true);
-            textArea.setText(htmlFileList.get(currentFile).getUpdatedHtml());
+            textArea.setText(ParentController.parentHtmlFileList.get(currentFile).getUpdatedHtml());
         } else {
             toggleView.setText("Edit file");
             viewBox.setVisible(true);
             editorBox.setVisible(false);
-            webView.getEngine().loadContent(htmlFileList.get(currentFile).getUpdatedHtml());
+            webView.getEngine().loadContent(ParentController.parentHtmlFileList.get(currentFile).getUpdatedHtml());
         }
     }
 
@@ -107,9 +105,9 @@ public class HomeController {
 
     @FXML
     protected void save() {
-        htmlFileList.get(currentFile).setUpdatedHtml(textArea.getText());
-        textArea.setText(htmlFileList.get(currentFile).getUpdatedHtml());
-        webView.getEngine().loadContent(htmlFileList.get(currentFile).getUpdatedHtml());
+        ParentController.parentHtmlFileList.get(currentFile).setUpdatedHtml(textArea.getText());
+        textArea.setText(ParentController.parentHtmlFileList.get(currentFile).getUpdatedHtml());
+        webView.getEngine().loadContent(ParentController.parentHtmlFileList.get(currentFile).getUpdatedHtml());
     }
 
     @FXML
