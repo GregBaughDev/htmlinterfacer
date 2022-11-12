@@ -13,7 +13,7 @@ public class HtmlInterfacer extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         this.primaryStage = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(HtmlInterfacer.class.getResource("home.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HtmlInterfacer.class.getResource("parent.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(getClass().getResource("/home.css").toExternalForm());
 
@@ -22,7 +22,6 @@ public class HtmlInterfacer extends Application {
         stage.setMinHeight(800);
         stage.setMinWidth(1000);
         stage.setResizable(false);
-        // Set up a function to populate the HTML files and add to HtmlFileList
         stage.show();
     }
 
@@ -36,5 +35,9 @@ public class HtmlInterfacer extends Application {
         Scene newScene = new Scene(fxmlLoader.load());
         newScene.getStylesheets().add(HtmlInterfacer.class.getResource("/home.css").toExternalForm());
         primaryStage.setScene(newScene);
+    }
+
+    public static Stage getStage() {
+        return primaryStage;
     }
 }

@@ -7,8 +7,6 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Initialiser extends Task {
@@ -17,12 +15,12 @@ public class Initialiser extends Task {
     private HtmlFile test2 = new HtmlFile("<h3>A second for file switching</h3>");
     private HtmlFile test3 = new HtmlFile("<h4>And again to check this could work</h4>");
 
-    private GHConnection ghConnection = new GHConnection();
-    private HtmlFile repo1 = new HtmlFile(new String(ghConnection.getRepo().read().readAllBytes()));
-    private HtmlFile repo2 = new HtmlFile(new String(ghConnection.getRepo2().read().readAllBytes()));
-    // Return the list of htmlFiles to loop over - the above should be done in the GHConnection
-//    List<HtmlFile> htmlFiles = List.of(test, test2, test3);
-    List<HtmlFile> htmlFiles = List.of(repo1, repo2);
+//    private GHConnection ghConnection = new GHConnection();
+//    private HtmlFile repo1 = new HtmlFile(new String(ghConnection.getRepo().read().readAllBytes()));
+//    private HtmlFile repo2 = new HtmlFile(new String(ghConnection.getRepo2().read().readAllBytes()));
+
+    List<HtmlFile> htmlFiles = List.of(test, test2, test3);
+    // List<HtmlFile> htmlFiles = List.of(repo1, repo2);
     public Initialiser() throws IOException {
     }
 

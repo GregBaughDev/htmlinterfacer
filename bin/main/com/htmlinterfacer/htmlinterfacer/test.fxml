@@ -2,9 +2,9 @@
 
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Label?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.htmlinterfacer.htmlinterfacer.controller.TestController">
     <padding>

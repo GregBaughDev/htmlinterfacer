@@ -1,25 +1,17 @@
 package com.htmlinterfacer.htmlinterfacer.controller;
 
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
-import com.htmlinterfacer.htmlinterfacer.Initialiser;
-import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebView;
 
 import java.io.IOException;
 
 public class HomeController {
-    @FXML
-    private HTMLEditor htmlEditor;
-
     @FXML
     private TextArea textArea;
 
@@ -33,12 +25,6 @@ public class HomeController {
     private Button treeBtn;
 
     @FXML
-    private Button saveBtn;
-
-    @FXML
-    private Button viewChanges;
-
-    @FXML
     private VBox editorBox;
 
     @FXML
@@ -49,35 +35,23 @@ public class HomeController {
 
     private Integer currentFile = 0;
 
-    private Initialiser initialiser = new Initialiser();
-
     public HomeController() throws IOException {
     }
-    // Only call once
+
     public void initialize() throws InterruptedException {
-        initialiser.createBackgroundThread(ParentController.parentHtmlFileList);
-        initialiser.getBackgroundThread().setOnSucceeded(evt -> {
-            for (int i = 0; i < ParentController.parentHtmlFileList.size(); i++) {
-                Integer currValue = i;
-                Button stringButton = new Button(currValue.toString());
-                stringButton.setId(currValue.toString());
-                stringButton.setOnAction(e -> handleFileChange(currValue));
-                fileBox.getChildren().add(stringButton);
-            }
-        });
-        initialiser.getBackgroundThread().setOnFailed(evt -> {
-            System.out.println("Thread failed");
-        });
+        for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
+            Integer currValue = i;
+            Button stringButton = new Button(currValue.toString());
+//            stringButton.setId(currValue.toString());
+            stringButton.setOnAction(e -> handleFileChange(currValue));
+            fileBox.getChildren().add(stringButton);
+        }
     }
-    // Make a new variable for currently updated string and edit it
-    // Check what it's like when pushing back to git
-    // Create an area to look at the current changes
-    // Push them to GH for PR review
 
     public EventHandler<ActionEvent> handleFileChange(Integer index) {
         currentFile = index;
-        textArea.setText(ParentController.parentHtmlFileList.get(currentFile).getUpdatedHtml());
-        webView.getEngine().loadContent(ParentController.parentHtmlFileList.get(currentFile).getUpdatedHtml());
+        textArea.setText(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
+        webView.getEngine().loadContent(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
         return null;
     }
 
@@ -87,12 +61,12 @@ public class HomeController {
             toggleView.setText("View file");
             viewBox.setVisible(false);
             editorBox.setVisible(true);
-            textArea.setText(ParentController.parentHtmlFileList.get(currentFile).getUpdatedHtml());
+            textArea.setText(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
         } else {
             toggleView.setText("Edit file");
             viewBox.setVisible(true);
             editorBox.setVisible(false);
-            webView.getEngine().loadContent(ParentController.parentHtmlFileList.get(currentFile).getUpdatedHtml());
+            webView.getEngine().loadContent(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
         }
     }
 
@@ -105,13 +79,14 @@ public class HomeController {
 
     @FXML
     protected void save() {
-        ParentController.parentHtmlFileList.get(currentFile).setUpdatedHtml(textArea.getText());
-        textArea.setText(ParentController.parentHtmlFileList.get(currentFile).getUpdatedHtml());
-        webView.getEngine().loadContent(ParentController.parentHtmlFileList.get(currentFile).getUpdatedHtml());
+        ParentController.getParentHtmlFileList().get(currentFile).setUpdatedHtml(textArea.getText());
+        textArea.setText(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
+        webView.getEngine().loadContent(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
     }
 
     @FXML
     protected void viewChangesList() throws IOException {
+        currentFile = 0;
         HtmlInterfacer.sceneChange("changes.fxml");
     }
 }
