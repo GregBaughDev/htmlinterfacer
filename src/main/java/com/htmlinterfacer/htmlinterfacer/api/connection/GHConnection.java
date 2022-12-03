@@ -22,6 +22,10 @@ public class GHConnection {
 
     List<HtmlFile> htmlFiles = new ArrayList<>();
 
+    public GHRepository getRepo() throws IOException {
+        return gitHub.getRepository(System.getenv("GHREPO"));
+    }
+
     public GHConnection() throws IOException {
     }
 
