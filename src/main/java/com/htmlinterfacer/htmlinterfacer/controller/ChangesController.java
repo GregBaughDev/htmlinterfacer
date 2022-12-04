@@ -1,7 +1,7 @@
 package com.htmlinterfacer.htmlinterfacer.controller;
 
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
-import com.htmlinterfacer.htmlinterfacer.api.connection.GHConnection;
+import com.htmlinterfacer.htmlinterfacer.api.connection.GHApi;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,9 +26,9 @@ public class ChangesController {
 
     private Integer currentFile = 0;
 
-    private GHConnection gh = new GHConnection();
-
     private List<String> files = Arrays.asList(System.getenv("FILES").split(","));
+
+    private GHApi ghApi = new GHApi(System.getenv("GHOWNER"), System.getenv("GHREPO"));
 
     public ChangesController() throws IOException {
     }
@@ -58,9 +58,10 @@ public class ChangesController {
     }
 
     @FXML
-    protected void handleCommit() throws IOException {
+    protected void handleCommit() throws IOException, InterruptedException {
 //        gh.getRepo().createCommit();
-        gh.getRepo().createPullRequest("test", "main", "main", "test PR");
+        HttpResponse<String> test = ghApi.getSendRepoContentRequest();
+        System.out.println(test);
     }
     // https://api.github.com/repos/GregBaughDev/htmlInterfacerTestRepo/git/refs
 //    {

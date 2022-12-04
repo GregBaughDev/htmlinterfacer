@@ -1,6 +1,5 @@
 package com.htmlinterfacer.htmlinterfacer;
 
-import com.htmlinterfacer.htmlinterfacer.api.connection.GHConnection;
 import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
@@ -15,7 +14,6 @@ public class Initialiser extends Task {
     private HtmlFile test2 = new HtmlFile("<h3>A second for file switching</h3>");
     private HtmlFile test3 = new HtmlFile("<h4>And again to check this could work</h4>");
     List<HtmlFile> htmlFiles = List.of(test, test2, test3);
-    private GHConnection ghConnection = new GHConnection();
 
     public Initialiser() throws IOException {
     }
@@ -27,7 +25,7 @@ public class Initialiser extends Task {
                 return new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                        for (HtmlFile htmlFile : ghConnection.getHtmlFiles()) {
+                        for (HtmlFile htmlFile : htmlFiles) {
                             htmlFileList.add(htmlFile);
                         }
                         return null;

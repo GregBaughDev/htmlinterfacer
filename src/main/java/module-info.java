@@ -4,6 +4,7 @@ module com.htmlinterfacer.htmlinterfacer {
     requires javafx.web;
     requires org.kohsuke.github.api;
     requires com.fasterxml.jackson.databind;
+    requires java.net.http;
 
 
     opens com.htmlinterfacer.htmlinterfacer to javafx.fxml;
