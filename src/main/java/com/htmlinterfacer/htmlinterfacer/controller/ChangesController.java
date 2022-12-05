@@ -28,8 +28,6 @@ public class ChangesController {
 
     private List<String> files = Arrays.asList(System.getenv("FILES").split(","));
 
-    private GHApi ghApi = new GHApi(System.getenv("GHOWNER"), System.getenv("GHREPO"));
-
     public ChangesController() throws IOException {
     }
 
@@ -60,8 +58,8 @@ public class ChangesController {
     @FXML
     protected void handleCommit() throws IOException, InterruptedException {
 //        gh.getRepo().createCommit();
-        HttpResponse<String> test = ghApi.getSendRepoContentRequest();
-        System.out.println(test);
+        HttpResponse<String> test = GHApi.getSendRepoContentRequest();
+        System.out.println(test.body());
     }
     // https://api.github.com/repos/GregBaughDev/htmlInterfacerTestRepo/git/refs
 //    {
