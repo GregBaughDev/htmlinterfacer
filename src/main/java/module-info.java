@@ -11,4 +11,6 @@ module com.htmlinterfacer.htmlinterfacer {
     exports com.htmlinterfacer.htmlinterfacer;
     opens com.htmlinterfacer.htmlinterfacer.controller to javafx.fxml;
     exports com.htmlinterfacer.htmlinterfacer.controller;
+    opens com.htmlinterfacer.htmlinterfacer.api.response to com.fasterxml.jackson.databind;
+    exports com.htmlinterfacer.htmlinterfacer.api.response;
 }

@@ -2,6 +2,7 @@ package com.htmlinterfacer.htmlinterfacer.controller;
 
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
 import com.htmlinterfacer.htmlinterfacer.api.connection.GHApi;
+import com.htmlinterfacer.htmlinterfacer.api.response.Repo;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -58,8 +59,10 @@ public class ChangesController {
     @FXML
     protected void handleCommit() throws IOException, InterruptedException {
 //        gh.getRepo().createCommit();
-        HttpResponse<String> test = GHApi.getSendRepoContentRequest();
-        System.out.println(test.body());
+        System.out.println(GHApi.getSendRepoContentRequest());
+//        for (Repo repo : test) {
+//            System.out.println(repo.toString());
+//        }
     }
     // https://api.github.com/repos/GregBaughDev/htmlInterfacerTestRepo/git/refs
 //    {
