@@ -1,42 +1,58 @@
 package com.htmlinterfacer.htmlinterfacer.api.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Repo {
-    @JsonProperty(value = "name")
     String name;
 
-    @JsonProperty(value = "path")
     String path;
 
-    @JsonProperty(value = "sha")
     String sha;
 
-    @JsonProperty(value = "size")
     String size;
 
-    @JsonProperty(value = "url")
     String url;
 
-    @JsonProperty(value = "html_url")
     String html_url;
 
-    @JsonProperty(value = "git_url")
     String git_url;
 
-    @JsonProperty(value = "download_url")
     String download_url;
 
-    @JsonProperty(value = "type")
     String type;
 
-    @JsonProperty(value = "_links")
     Links _links;
 
-    class Links {
+    static class Links {
         String self;
+
         String git;
+
         String html;
+
+        public Links() {}
+
+        public String getSelf() {
+            return self;
+        }
+
+        public void setSelf(String self) {
+            this.self = self;
+        }
+
+        public String getGit() {
+            return git;
+        }
+
+        public void setGit(String git) {
+            this.git = git;
+        }
+
+        public String getHtml() {
+            return html;
+        }
+
+        public void setHtml(String html) {
+            this.html = html;
+        }
     }
 
     public Repo() {
