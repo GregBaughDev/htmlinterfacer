@@ -2,6 +2,7 @@ package com.htmlinterfacer.htmlinterfacer.api.connection;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.htmlinterfacer.htmlinterfacer.api.response.File;
 import com.htmlinterfacer.htmlinterfacer.api.response.Repo;
 
 import java.io.IOException;
@@ -24,6 +25,8 @@ public class GHApi {
 
     private static String getRepoContentString = ghApiUri + repos + owner + repo + contents + recursiveQuery;
 
+    private static String getFileContentString = ghApiUri + repos + owner + repo + contents + "/";
+
     private static final HttpClient client = HttpClient.newHttpClient();
 
     private static HttpRequest getRepoContentRequest = HttpRequest
@@ -34,10 +37,24 @@ public class GHApi {
             .GET()
             .build();
 
-    static public List<Repo> getSendRepoContentRequest () throws IOException, InterruptedException {
+    private static HttpRequest getFileContentRequest(String file) {
+        return HttpRequest
+                .newBuilder()
+                .uri(URI.create(getFileContentString + file))
+                .header("Accept", "application/vnd.github+json")
+                .header("Authorization", "Bearer " + System.getenv("OAUTH"))
+                .GET()
+                .build();
+    }
+
+    static public List<Repo> getSendRepoContentRequest() throws IOException, InterruptedException {
         HttpResponse<String> response = client.send(getRepoContentRequest, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
         return objectMapper.readValue(response.body(), new TypeReference<List<Repo>>(){});
+    }
+
+    static public File getSendFileContentRequest(String file) throws IOException, InterruptedException {
+        HttpResponse<String> response = client.send(getFileContentRequest(file), HttpResponse.BodyHandlers.ofString());
+        return objectMapper.readValue(response.body(), new TypeReference<File>(){});
     }
 
 
