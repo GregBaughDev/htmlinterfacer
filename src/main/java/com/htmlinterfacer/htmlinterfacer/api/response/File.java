@@ -1,13 +1,13 @@
 package com.htmlinterfacer.htmlinterfacer.api.response;
 
-public class Repo {
+public class File {
     String name;
 
     String path;
 
     String sha;
 
-    String size;
+    Integer size;
 
     String url;
 
@@ -19,11 +19,13 @@ public class Repo {
 
     String type;
 
+    String content;
+
+    String encoding;
+
     Links _links;
 
-    public Repo() {
-
-    }
+    public File() {}
 
     public String getName() {
         return name;
@@ -49,11 +51,11 @@ public class Repo {
         this.sha = sha;
     }
 
-    public String getSize() {
+    public Integer getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(Integer size) {
         this.size = size;
     }
 
@@ -97,11 +99,31 @@ public class Repo {
         this.type = type;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+
     public Links get_links() {
         return _links;
     }
 
     public void set_links(Links _links) {
         this._links = _links;
+    }
+
+    public String toString() {
+        return "File: { name: " + name + ", path: " + path + ", content:" + content + "}";
     }
 }
