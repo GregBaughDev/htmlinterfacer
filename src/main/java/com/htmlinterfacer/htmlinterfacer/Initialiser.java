@@ -1,19 +1,19 @@
 package com.htmlinterfacer.htmlinterfacer;
 
+import com.htmlinterfacer.htmlinterfacer.api.connection.GHApi;
 import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 public class Initialiser extends Task {
     private Service<Void> backgroundThread;
-    private HtmlFile test = new HtmlFile("<h2>Again to check formatting</h2>");
-    private HtmlFile test2 = new HtmlFile("<h3>A second for file switching</h3>");
-    private HtmlFile test3 = new HtmlFile("<h4>And again to check this could work</h4>");
-    List<HtmlFile> htmlFiles = List.of(test, test2, test3);
+
+    List<String> envFiles = List.of(System.getenv("FILES").split(","));
 
     public Initialiser() throws IOException {
     }
@@ -25,8 +25,9 @@ public class Initialiser extends Task {
                 return new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                        for (HtmlFile htmlFile : htmlFiles) {
-                            htmlFileList.add(htmlFile);
+                        for (String envFile : envFiles) {
+                            byte[] fileContents = Base64.getMimeDecoder().decode(GHApi.getSendFileContentRequest(envFile).getContent());
+                            htmlFileList.add(new HtmlFile(new String(fileContents)));
                         }
                         return null;
                     }

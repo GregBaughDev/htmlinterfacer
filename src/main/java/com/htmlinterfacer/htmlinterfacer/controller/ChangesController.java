@@ -2,6 +2,8 @@ package com.htmlinterfacer.htmlinterfacer.controller;
 
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
 import com.htmlinterfacer.htmlinterfacer.api.connection.GHApi;
+import com.htmlinterfacer.htmlinterfacer.api.response.Links;
+import com.htmlinterfacer.htmlinterfacer.api.response.Ref;
 import com.htmlinterfacer.htmlinterfacer.api.response.Repo;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,6 +15,7 @@ import javafx.scene.web.WebView;
 import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 public class ChangesController {
@@ -59,7 +62,12 @@ public class ChangesController {
     @FXML
     protected void handleCommit() throws IOException, InterruptedException {
 //        gh.getRepo().createCommit();
-        System.out.println(GHApi.getSendRepoContentRequest());
+//        byte[] fileContents = Base64.getMimeDecoder().decode(GHApi.getSendFileContentRequest(System.getenv("REPO1")).getContent());
+//        System.out.println(new String(fileContents));
+
+        String response = GHApi.postSendRefsRequest("fromUI", "e85991183321aaa2b258b2604812b4d1196e9ff1");
+        System.out.println(response);
+        // System.out.println(GHApi.getSendRepoContentRequest());
 //        for (Repo repo : test) {
 //            System.out.println(repo.toString());
 //        }
