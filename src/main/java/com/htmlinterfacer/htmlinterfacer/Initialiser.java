@@ -1,6 +1,7 @@
 package com.htmlinterfacer.htmlinterfacer;
 
 import com.htmlinterfacer.htmlinterfacer.api.connection.GHApi;
+import com.htmlinterfacer.htmlinterfacer.api.response.File;
 import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
@@ -26,8 +27,11 @@ public class Initialiser extends Task {
                     @Override
                     protected Void call() throws Exception {
                         for (String envFile : envFiles) {
-                            byte[] fileContents = Base64.getMimeDecoder().decode(GHApi.getSendFileContentRequest(envFile).getContent());
-                            htmlFileList.add(new HtmlFile(new String(fileContents)));
+                            // Try catch -> throw exception not correct file type
+                            // create a util class which checks file type
+                            File fileResponse = GHApi.getSendFileContentRequest(envFile);
+                            byte[] fileContents = Base64.getMimeDecoder().decode(fileResponse.getContent());
+                            htmlFileList.add(new HtmlFile(new String(fileContents), fileResponse.getSha()));
                         }
                         return null;
                     }

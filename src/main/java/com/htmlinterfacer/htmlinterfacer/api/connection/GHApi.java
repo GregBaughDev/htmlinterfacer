@@ -21,7 +21,7 @@ public class GHApi {
     private static final String git = "git/";
     private static final String heads = "heads/";
     private final String trees = "trees/";
-    private static final String refs = "refs/";
+    private static final String refs = "refs";
     private static final String recursiveQuery = "?recursive=true";
 
     private static String owner = System.getenv("GHOWNER") + "/";
@@ -31,9 +31,11 @@ public class GHApi {
 
     private static String getFileContentString = ghApiUri + repos + owner + repo + contents + "/";
 
-    private static String getRefsString = ghApiUri + repos + owner + repo + git + refs + heads;
+    private static String getRefsString = ghApiUri + repos + owner + repo + git + refs + "/" + heads;
 
     private static String postRefsString = ghApiUri + repos + owner + repo + git + refs;
+
+    private static String putUpdateFileString = ghApiUri + repos + owner + repo + contents + "/";
 
     private static final HttpClient client = HttpClient.newHttpClient();
 
@@ -72,11 +74,26 @@ public class GHApi {
                 .header("Accept", "application/vnd.github+json")
                 .header("Authorization", "Bearer " + System.getenv("OAUTH"))
                 .POST(
-                        HttpRequest.BodyPublishers.ofString("{\"ref\" : \"refs/heads/" + branchName + ", \"sha\" : " + sha + "\" } ")
+                        HttpRequest.BodyPublishers.ofString("{\"ref\" : \"refs/heads/" + branchName + "\", \"sha\" : \"" + sha + "\" }")
                 )
                 .build();
+    }
 
-
+    private static HttpRequest putUpdateFileRequest(String path, String contents, String branch, String sha) {
+        return HttpRequest
+                .newBuilder()
+                .uri(URI.create(putUpdateFileString + path))
+                .header("Accept", "application/vnd.github+json")
+                .header("Authorization", "Bearer " + System.getenv("OAUTH"))
+                .PUT(
+                        HttpRequest.BodyPublishers.ofString(
+                                // replace commit message time and date
+                                "{\"message\" : \"test commit from UI\", " +
+                                        "\"content\" : \"" + contents + "\", " +
+                                        "\"branch\" : \"" + branch + "\"," +
+                                        "\"sha\" : \"" + sha + "\" }")
+                )
+                .build();
     }
 
     static public List<Repo> getSendRepoContentRequest() throws IOException, InterruptedException {
@@ -96,9 +113,16 @@ public class GHApi {
 
     static public String postSendRefsRequest(String branchName, String sha) throws IOException, InterruptedException {
         HttpResponse<String> response = client.send(postRefsRequest(branchName, sha), HttpResponse.BodyHandlers.ofString());
-        // TO DO NEXT TIME -> Issue with the JSON
         return response.body();
     }
+
+    static public String putSendUpdateFileRequest(String path, String contents, String branch, String sha) throws IOException, InterruptedException {
+        HttpResponse<String> response = client.send(putUpdateFileRequest(path, contents, branch, sha), HttpResponse.BodyHandlers.ofString());
+        // TO DO -> issue with the correct sha!
+        return response.body();
+    }
+
+    // Push commit to branch fromUI
 
     // Get the main branch name from sysenv
     // search through the refs and if it matches grab the sha to create the main branch off of
@@ -107,8 +131,7 @@ public class GHApi {
     // Get repo content
     // -> Get recursive and if type == blob, store the url -> get the blob -> get the content
 
-
-    // Create branch
-
     // Create commit
+
+    // Create PR
 }

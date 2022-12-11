@@ -5,9 +5,12 @@ public class HtmlFile {
 
     private String updatedHtml;
 
-    public HtmlFile (String html) {
+    private final String sha;
+
+    public HtmlFile (String html, String sha) {
         this.originalHtml = html;
         this.updatedHtml = html;
+        this.sha = sha;
     }
 
     public Boolean isAltered () {
@@ -20,6 +23,10 @@ public class HtmlFile {
 
     public String getUpdatedHtml () {
         return this.updatedHtml;
+    }
+
+    public String getSha () {
+        return this.sha;
     }
 
 }

@@ -14,6 +14,7 @@ import javafx.scene.web.WebView;
 
 import java.io.IOException;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
@@ -64,8 +65,9 @@ public class ChangesController {
 //        gh.getRepo().createCommit();
 //        byte[] fileContents = Base64.getMimeDecoder().decode(GHApi.getSendFileContentRequest(System.getenv("REPO1")).getContent());
 //        System.out.println(new String(fileContents));
-
-        String response = GHApi.postSendRefsRequest("fromUI", "e85991183321aaa2b258b2604812b4d1196e9ff1");
+        String testBase = Base64.getMimeEncoder().encodeToString("Another test of the file".getBytes(StandardCharsets.UTF_8));
+        System.out.println(testBase);
+        String response = GHApi.putSendUpdateFileRequest(System.getenv("FILES").split(",")[0], testBase, "fromUI", ParentController.getParentHtmlFileList().get(0).getSha());
         System.out.println(response);
         // System.out.println(GHApi.getSendRepoContentRequest());
 //        for (Repo repo : test) {
