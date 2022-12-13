@@ -5,6 +5,7 @@ import com.htmlinterfacer.htmlinterfacer.api.connection.GHApi;
 import com.htmlinterfacer.htmlinterfacer.api.response.Links;
 import com.htmlinterfacer.htmlinterfacer.api.response.Ref;
 import com.htmlinterfacer.htmlinterfacer.api.response.Repo;
+import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -62,23 +63,15 @@ public class ChangesController {
 
     @FXML
     protected void handleCommit() throws IOException, InterruptedException {
-//        gh.getRepo().createCommit();
 //        byte[] fileContents = Base64.getMimeDecoder().decode(GHApi.getSendFileContentRequest(System.getenv("REPO1")).getContent());
-//        System.out.println(new String(fileContents));
-        String testBase = Base64.getMimeEncoder().encodeToString("Another test of the file".getBytes(StandardCharsets.UTF_8));
-        System.out.println(testBase);
-        String response = GHApi.putSendUpdateFileRequest(System.getenv("FILES").split(",")[0], testBase, "fromUI", ParentController.getParentHtmlFileList().get(0).getSha());
+        List<Ref> refs = GHApi.getSendRefsRequest();
+        GHApi.postSendRefsRequest("newBranch", refs.get(0).getRefObject().getSha());
+        String changedFile = ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml();
+        String testBase = Base64.getUrlEncoder().encodeToString(changedFile.getBytes(StandardCharsets.UTF_8));
+        // Sha issue now
+        String response = GHApi.putSendUpdateFileRequest(System.getenv("FILES").split(",")[0], testBase, "newBranch", "e500031f676cca4b90c75a4c66737afe08a9c3b0");
         System.out.println(response);
-        // System.out.println(GHApi.getSendRepoContentRequest());
-//        for (Repo repo : test) {
-//            System.out.println(repo.toString());
-//        }
     }
-    // https://api.github.com/repos/GregBaughDev/htmlInterfacerTestRepo/git/refs
-//    {
-//        "ref": "refs/heads/test-branch",
-//            "sha": "e85991183321aaa2b258b2604812b4d1196e9ff1"
-//    }
     // TO DO:
     // CREATE A POPUP -> To confirm the save
     // Check what it's like when pushing back to git

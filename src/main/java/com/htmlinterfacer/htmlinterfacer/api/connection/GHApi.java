@@ -80,19 +80,18 @@ public class GHApi {
     }
 
     private static HttpRequest putUpdateFileRequest(String path, String contents, String branch, String sha) {
+        HttpRequest.BodyPublisher request = HttpRequest.BodyPublishers.ofString(
+                // replace commit message time and date
+                "{\"message\": \"test commit from UI\", " +
+                        "\"content\": \"" + contents + "\", " +
+                        "\"branch\": \"" + branch + "\", " +
+                        "\"sha\": \"" + sha + "\" }");
         return HttpRequest
                 .newBuilder()
                 .uri(URI.create(putUpdateFileString + path))
                 .header("Accept", "application/vnd.github+json")
                 .header("Authorization", "Bearer " + System.getenv("OAUTH"))
-                .PUT(
-                        HttpRequest.BodyPublishers.ofString(
-                                // replace commit message time and date
-                                "{\"message\" : \"test commit from UI\", " +
-                                        "\"content\" : \"" + contents + "\", " +
-                                        "\"branch\" : \"" + branch + "\"," +
-                                        "\"sha\" : \"" + sha + "\" }")
-                )
+                .PUT(request)
                 .build();
     }
 
@@ -118,7 +117,7 @@ public class GHApi {
 
     static public String putSendUpdateFileRequest(String path, String contents, String branch, String sha) throws IOException, InterruptedException {
         HttpResponse<String> response = client.send(putUpdateFileRequest(path, contents, branch, sha), HttpResponse.BodyHandlers.ofString());
-        // TO DO -> issue with the correct sha!
+        System.out.println(response.headers());
         return response.body();
     }
 
