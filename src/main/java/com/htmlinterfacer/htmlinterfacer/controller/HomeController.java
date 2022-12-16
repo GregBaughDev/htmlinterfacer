@@ -41,11 +41,11 @@ public class HomeController {
     public void initialize() throws InterruptedException {
         for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
             Integer currValue = i;
-            Button stringButton = new Button(currValue.toString());
-//            stringButton.setId(currValue.toString());
+            Button stringButton = new Button(ParentController.getParentHtmlFileList().get(i).getPath());
             stringButton.setOnAction(e -> handleFileChange(currValue));
             fileBox.getChildren().add(stringButton);
         }
+        webView.getEngine().loadContent(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
     }
 
     public EventHandler<ActionEvent> handleFileChange(Integer index) {
@@ -69,13 +69,6 @@ public class HomeController {
             webView.getEngine().loadContent(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
         }
     }
-
-//    @FXML
-//    protected void tree() {
-//        test4.getTree().getTree().stream().forEach(tree -> {
-//            System.out.println(tree.getSha());
-//        });
-//    }
 
     @FXML
     protected void save() {
