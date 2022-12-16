@@ -31,7 +31,7 @@ public class Initialiser extends Task {
                             // create a util class which checks file type
                             File fileResponse = GHApi.getSendFileContentRequest(envFile);
                             byte[] fileContents = Base64.getMimeDecoder().decode(fileResponse.getContent());
-                            htmlFileList.add(new HtmlFile(new String(fileContents), fileResponse.getSha()));
+                            htmlFileList.add(new HtmlFile(new String(fileContents), fileResponse.getSha(), fileResponse.getPath()));
                         }
                         return null;
                     }

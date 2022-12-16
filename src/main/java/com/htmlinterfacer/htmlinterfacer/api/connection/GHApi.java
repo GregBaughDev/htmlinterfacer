@@ -3,7 +3,6 @@ package com.htmlinterfacer.htmlinterfacer.api.connection;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.htmlinterfacer.htmlinterfacer.api.response.File;
-import com.htmlinterfacer.htmlinterfacer.api.response.Links;
 import com.htmlinterfacer.htmlinterfacer.api.response.Ref;
 import com.htmlinterfacer.htmlinterfacer.api.response.Repo;
 
@@ -20,7 +19,7 @@ public class GHApi {
     private static final String contents = "contents";
     private static final String git = "git/";
     private static final String heads = "heads/";
-    private final String trees = "trees/";
+    private static final String pulls = "pulls";
     private static final String refs = "refs";
     private static final String recursiveQuery = "?recursive=true";
 
@@ -37,15 +36,19 @@ public class GHApi {
 
     private static String putUpdateFileString = ghApiUri + repos + owner + repo + contents + "/";
 
+    private static String postCreatePRString = ghApiUri + repos + owner + repo + pulls;
+
     private static final HttpClient client = HttpClient.newHttpClient();
 
-    private static HttpRequest getRepoContentRequest = HttpRequest
-            .newBuilder()
-            .uri(URI.create(getRepoContentString))
-            .header("Accept", "application/vnd.github+json")
-            .header("Authorization", "Bearer " + System.getenv("OAUTH"))
-            .GET()
-            .build();
+    private static HttpRequest getRepoContentRequest() {
+        return HttpRequest
+                .newBuilder()
+                .uri(URI.create(getRepoContentString))
+                .header("Accept", "application/vnd.github+json")
+                .header("Authorization", "Bearer " + System.getenv("OAUTH"))
+                .GET()
+                .build();
+    }
 
     private static HttpRequest getFileContentRequest(String file) {
         return HttpRequest
@@ -79,10 +82,9 @@ public class GHApi {
                 .build();
     }
 
-    private static HttpRequest putUpdateFileRequest(String path, String contents, String branch, String sha) {
+    private static HttpRequest putUpdateFileRequest(String path, String contents, String branch, String sha, String commitMsg) {
         HttpRequest.BodyPublisher request = HttpRequest.BodyPublishers.ofString(
-                // replace commit message time and date
-                "{\"message\": \"test commit from UI\", " +
+                "{\"message\": \"" + commitMsg + "\", " +
                         "\"content\": \"" + contents + "\", " +
                         "\"branch\": \"" + branch + "\", " +
                         "\"sha\": \"" + sha + "\" }");
@@ -95,8 +97,23 @@ public class GHApi {
                 .build();
     }
 
+    private static HttpRequest postCreatePRRequest(String title, String head, String body) {
+        HttpRequest.BodyPublisher request = HttpRequest.BodyPublishers.ofString(
+            "{\"title\": \"" + title + "\", " +
+                    "\"head\": \"" + head + "\", " +
+                    "\"body\": \"" + body + "\", " +
+                    "\"base\" : \"main\"}");
+        return HttpRequest
+                .newBuilder()
+                .uri(URI.create(postCreatePRString))
+                .header("Accept", "application/vnd.github+json")
+                .header("Authorization", "Bearer " + System.getenv("OAUTH"))
+                .POST(request)
+                .build();
+    }
+
     static public List<Repo> getSendRepoContentRequest() throws IOException, InterruptedException {
-        HttpResponse<String> response = client.send(getRepoContentRequest, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = client.send(getRepoContentRequest(), HttpResponse.BodyHandlers.ofString());
         return objectMapper.readValue(response.body(), new TypeReference<List<Repo>>(){});
     }
 
@@ -115,22 +132,20 @@ public class GHApi {
         return response.body();
     }
 
-    static public String putSendUpdateFileRequest(String path, String contents, String branch, String sha) throws IOException, InterruptedException {
-        HttpResponse<String> response = client.send(putUpdateFileRequest(path, contents, branch, sha), HttpResponse.BodyHandlers.ofString());
+    static public String putSendUpdateFileRequest(String path, String contents, String branch, String sha, String commitMsg) throws IOException, InterruptedException {
+        HttpResponse<String> response = client.send(putUpdateFileRequest(path, contents, branch, sha, commitMsg), HttpResponse.BodyHandlers.ofString());
         System.out.println(response.headers());
         return response.body();
     }
 
-    // Push commit to branch fromUI
-
+    static public String getPostCreatePRRequest(String title, String head, String body) throws IOException, InterruptedException {
+        HttpResponse<String> response = client.send(postCreatePRRequest(title, head, body), HttpResponse.BodyHandlers.ofString());
+        System.out.println("PR: " + response.headers());
+        return response.body();
+    }
     // Get the main branch name from sysenv
     // search through the refs and if it matches grab the sha to create the main branch off of
 
-
     // Get repo content
     // -> Get recursive and if type == blob, store the url -> get the blob -> get the content
-
-    // Create commit
-
-    // Create PR
 }
