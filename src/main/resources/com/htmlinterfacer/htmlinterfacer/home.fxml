@@ -11,17 +11,12 @@
           alignment="CENTER" hgap="10" vgap="10" prefHeight="800" prefWidth="1000">
 
     <VBox GridPane.columnIndex="0" GridPane.columnSpan="2" fx:id="fileBox">
-        <Text text="Files here"></Text>
+        <Text text="Actions"></Text>
         <Button fx:id="viewChanges" text="View changed files" onAction="#viewChangesList"></Button>
         <Button fx:id="toggleView" text="Edit file" onAction="#onToggleViewClick"></Button>
-<!--        <Button fx:id="treeBtn" text="Tree" onAction="#tree"></Button>-->
+        <Button text="Reset changes" onAction="#handleReset"></Button>
+        <Text>Files</Text>
     </VBox>
-
-<!--    <VBox GridPane.columnIndex="2" GridPane.columnSpan="4" fx:id="editorBox" visible="false">-->
-<!--        <Text text="Editor view"></Text>-->
-<!--        <HTMLEditor fx:id="htmlEditor"></HTMLEditor>-->
-<!--        <Button fx:id="saveBtn" text="Save" onAction="#save"></Button>-->
-<!--    </VBox>-->
 
     <VBox GridPane.columnIndex="2" GridPane.columnSpan="4" fx:id="editorBox" visible="false">
         <Text text="Editor view"></Text>

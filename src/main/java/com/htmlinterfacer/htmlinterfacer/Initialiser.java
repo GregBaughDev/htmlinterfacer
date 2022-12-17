@@ -12,6 +12,7 @@ import java.util.Base64;
 import java.util.List;
 
 public class Initialiser extends Task {
+    private GHApi ghApi = new GHApi();
     private Service<Void> backgroundThread;
 
     List<String> envFiles = List.of(System.getenv("FILES").split(","));
@@ -29,7 +30,7 @@ public class Initialiser extends Task {
                         for (String envFile : envFiles) {
                             // Try catch -> throw exception not correct file type
                             // create a util class which checks file type
-                            File fileResponse = GHApi.getSendFileContentRequest(envFile);
+                            File fileResponse = ghApi.getSendFileContentRequest(envFile);
                             byte[] fileContents = Base64.getMimeDecoder().decode(fileResponse.getContent());
                             htmlFileList.add(new HtmlFile(new String(fileContents), fileResponse.getSha(), fileResponse.getPath()));
                         }

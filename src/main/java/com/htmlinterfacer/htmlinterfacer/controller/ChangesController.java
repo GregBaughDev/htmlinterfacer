@@ -4,6 +4,7 @@ import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
 import com.htmlinterfacer.htmlinterfacer.api.connection.GHApi;
 import com.htmlinterfacer.htmlinterfacer.api.response.Ref;
 import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
+import com.htmlinterfacer.htmlinterfacer.log.FileLog;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,8 +21,10 @@ import java.util.Base64;
 import java.util.List;
 
 public class ChangesController {
+    private GHApi ghApi = new GHApi();
+    private FileLog fileLog = new FileLog();
     @FXML
-    private Button switchBtn;
+    private Button commitBtn;
 
     @FXML
     private VBox changedBox;
@@ -44,6 +47,7 @@ public class ChangesController {
                 stringButton.setId(currValue.toString());
                 stringButton.setOnAction(e -> handleFileChange(currValue));
                 changedBox.getChildren().add(stringButton);
+                commitBtn.setDisable(false);
             }
         }
     }
@@ -58,21 +62,19 @@ public class ChangesController {
     protected void switchView() throws IOException {
         currentFile = 0;
         HtmlInterfacer.sceneChange("home.fxml");
-        // Check if any files are changed and if so enable button
     }
 
     @FXML
     protected void handleCommit() throws IOException, InterruptedException {
-        // Disable button if no files are changed
         String branchName = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now());
-        List<Ref> refs = GHApi.getSendRefsRequest();
+        List<Ref> refs = ghApi.getSendRefsRequest();
         // Check the below -> may change depending on the repo
-        GHApi.postSendRefsRequest(branchName, refs.get(currentFile).getRefObject().getSha());
+        ghApi.postSendRefsRequest(branchName, refs.get(currentFile).getRefObject().getSha());
 
         for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
             if (ParentController.getParentHtmlFileList().get(i).isAltered()){
                 String changedFile = ParentController.getParentHtmlFileList().get(i).getUpdatedHtml();
-                String response = GHApi.putSendUpdateFileRequest(
+                String response = ghApi.putSendUpdateFileRequest(
                         // Move this to an accessible variable instead of having to recalculate
                         ParentController.getParentHtmlFileList().get(i).getPath(),
                         Base64.getEncoder().encodeToString(changedFile.getBytes(StandardCharsets.UTF_8)),
@@ -80,13 +82,12 @@ public class ChangesController {
                         ParentController.getParentHtmlFileList().get(i).getSha(),
                         "Commit to file: " + ParentController.getParentHtmlFileList().get(i).getPath()
                 );
-                System.out.println(response);
+                fileLog.writeToLog("File Commit: " + response);
             }
         }
 
-        String response = GHApi.getPostCreatePRRequest("feat/update docs: " + branchName, branchName, "Changes to static files");
-        System.out.println(response);
-        // Once all files are commited open a PR
+        String response = ghApi.getPostCreatePRRequest("feat/update docs: " + branchName, branchName, "Changes to static files");
+        fileLog.writeToLog("Create PR: " + response);
         // Lock the ui or add reset button
 
         // Also need to find a way to do bulk file commits
@@ -97,8 +98,7 @@ public class ChangesController {
     }
     // TO DO:
     // CREATE A POPUP -> To confirm the save
-    // Check what it's like when pushing back to git
-    // Push them to GH for PR review
+    // Logging
 
     // OPTIMISATIONS
     // Refactor response classes to records

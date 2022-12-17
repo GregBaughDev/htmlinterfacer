@@ -36,4 +36,8 @@ public class HtmlFile {
         return this.path;
     }
 
+    public String getOriginalHtml() {
+        return this.originalHtml;
+    }
+
 }
