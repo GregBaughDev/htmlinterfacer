@@ -36,8 +36,4 @@ public class HtmlInterfacer extends Application {
         newScene.getStylesheets().add(HtmlInterfacer.class.getResource("/home.css").toExternalForm());
         primaryStage.setScene(newScene);
     }
-
-    public static Stage getStage() {
-        return primaryStage;
-    }
 }

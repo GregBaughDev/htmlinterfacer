@@ -2,9 +2,9 @@ package com.htmlinterfacer.htmlinterfacer.api.connection;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.htmlinterfacer.htmlinterfacer.api.response.File;
-import com.htmlinterfacer.htmlinterfacer.api.response.Ref;
-import com.htmlinterfacer.htmlinterfacer.api.response.Repo;
+import com.htmlinterfacer.htmlinterfacer.api.record.File;
+import com.htmlinterfacer.htmlinterfacer.api.record.Ref;
+import com.htmlinterfacer.htmlinterfacer.api.record.Repo;
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
 
 import java.io.IOException;
@@ -15,31 +15,6 @@ import java.util.List;
 public class GHApi {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final FileLog fileLog = new FileLog();
-
-    private final String ghApiUri = "https://api.github.com/";
-    private final String repos = "repos/";
-    private final String contents = "contents";
-    private final String git = "git/";
-    private final String heads = "heads/";
-    private final String pulls = "pulls";
-    private final String refs = "refs";
-    private final String recursiveQuery = "?recursive=true";
-
-    private String owner = System.getenv("GHOWNER") + "/";
-    private String repo = System.getenv("GHREPO") + "/";
-
-    private String getRepoContentString = ghApiUri + repos + owner + repo + contents + recursiveQuery;
-
-    private String getFileContentString = ghApiUri + repos + owner + repo + contents + "/";
-
-    private String getRefsString = ghApiUri + repos + owner + repo + git + refs + "/" + heads;
-
-    private String postRefsString = ghApiUri + repos + owner + repo + git + refs;
-
-    private String putUpdateFileString = ghApiUri + repos + owner + repo + contents + "/";
-
-    private String postCreatePRString = ghApiUri + repos + owner + repo + pulls;
-
     private final HttpClient client = HttpClient.newHttpClient();
 
     public GHApi() throws IOException {
@@ -48,7 +23,7 @@ public class GHApi {
     private HttpRequest getRepoContentRequest() {
         return HttpRequest
                 .newBuilder()
-                .uri(URI.create(getRepoContentString))
+                .uri(URI.create(GHQueryURI.GET_REPO_CONTENT_STRING.getQuery()))
                 .header("Accept", "application/vnd.github+json")
                 .header("Authorization", "Bearer " + System.getenv("OAUTH"))
                 .GET()
@@ -58,7 +33,7 @@ public class GHApi {
     private HttpRequest getFileContentRequest(String file) {
         return HttpRequest
                 .newBuilder()
-                .uri(URI.create(getFileContentString + file))
+                .uri(URI.create(GHQueryURI.GET_FILE_CONTENT_STRING.getQuery() + file))
                 .header("Accept", "application/vnd.github+json")
                 .header("Authorization", "Bearer " + System.getenv("OAUTH"))
                 .GET()
@@ -68,7 +43,7 @@ public class GHApi {
     private HttpRequest getRefsRequest() {
         return HttpRequest
                 .newBuilder()
-                .uri(URI.create(getRefsString))
+                .uri(URI.create(GHQueryURI.GET_REFS_STRING.getQuery()))
                 .header("Accept", "application/vnd.github+json")
                 .header("Authorization", "Bearer " + System.getenv("OAUTH"))
                 .GET()
@@ -76,14 +51,15 @@ public class GHApi {
     }
 
     private HttpRequest postRefsRequest(String branchName, String sha) {
+        HttpRequest.BodyPublisher request = HttpRequest.BodyPublishers.ofString(
+                "{\"ref\" : \"refs/heads/" + branchName + "\", " +
+                        "\"sha\" : \"" + sha + "\" }");
         return HttpRequest
                 .newBuilder()
-                .uri(URI.create(postRefsString))
+                .uri(URI.create(GHQueryURI.POST_REFS_STRING.getQuery()))
                 .header("Accept", "application/vnd.github+json")
                 .header("Authorization", "Bearer " + System.getenv("OAUTH"))
-                .POST(
-                        HttpRequest.BodyPublishers.ofString("{\"ref\" : \"refs/heads/" + branchName + "\", \"sha\" : \"" + sha + "\" }")
-                )
+                .POST(request)
                 .build();
     }
 
@@ -95,7 +71,7 @@ public class GHApi {
                         "\"sha\": \"" + sha + "\" }");
         return HttpRequest
                 .newBuilder()
-                .uri(URI.create(putUpdateFileString + path))
+                .uri(URI.create(GHQueryURI.PUT_UPDATE_FILE_STRINGS.getQuery() + path))
                 .header("Accept", "application/vnd.github+json")
                 .header("Authorization", "Bearer " + System.getenv("OAUTH"))
                 .PUT(request)
@@ -110,7 +86,7 @@ public class GHApi {
                     "\"base\" : \"main\"}");
         return HttpRequest
                 .newBuilder()
-                .uri(URI.create(postCreatePRString))
+                .uri(URI.create(GHQueryURI.POST_CREATE_PR_STRING.getQuery()))
                 .header("Accept", "application/vnd.github+json")
                 .header("Authorization", "Bearer " + System.getenv("OAUTH"))
                 .POST(request)
@@ -118,39 +94,69 @@ public class GHApi {
     }
 
     public List<Repo> getSendRepoContentRequest() throws IOException, InterruptedException {
-        HttpResponse<String> response = client.send(getRepoContentRequest(), HttpResponse.BodyHandlers.ofString());
-        fileLog.writeToLog("getSendRepoContentRequest: " + response.headers());
-        return objectMapper.readValue(response.body(), new TypeReference<List<Repo>>(){});
+        try {
+            HttpResponse<String> response = client.send(getRepoContentRequest(), HttpResponse.BodyHandlers.ofString());
+            fileLog.writeToLog("getSendRepoContentRequest: " + response.headers());
+            return objectMapper.readValue(response.body(), new TypeReference<>() {});
+        } catch (Exception e) {
+            fileLog.writeToLog("getSendRepoContentRequest exception: " + e);
+            return null;
+        }
     }
 
     public File getSendFileContentRequest(String file) throws IOException, InterruptedException {
-        HttpResponse<String> response = client.send(getFileContentRequest(file), HttpResponse.BodyHandlers.ofString());
-        fileLog.writeToLog("getSendFileContentRequest: " + response.headers());
-        return objectMapper.readValue(response.body(), new TypeReference<File>(){});
+        try {
+            HttpResponse<String> response = client.send(getFileContentRequest(file), HttpResponse.BodyHandlers.ofString());
+            fileLog.writeToLog("getSendFileContentRequest: " + response.headers());
+            return objectMapper.readValue(response.body(), new TypeReference<>() {});
+        } catch (Exception e) {
+            fileLog.writeToLog("getSendFileContentRequest exception: " + e);
+            return null;
+        }
     }
 
     public List<Ref> getSendRefsRequest() throws IOException, InterruptedException {
-        HttpResponse<String> response = client.send(getRefsRequest(), HttpResponse.BodyHandlers.ofString());
-        fileLog.writeToLog("getSendRefsRequest: " + response.headers());
-        return objectMapper.readValue(response.body(), new TypeReference<List<Ref>>() {});
+        try {
+            HttpResponse<String> response = client.send(getRefsRequest(), HttpResponse.BodyHandlers.ofString());
+            fileLog.writeToLog("getSendRefsRequest: " + response.headers());
+            return objectMapper.readValue(response.body(), new TypeReference<>() {});
+        } catch (Exception e) {
+            fileLog.writeToLog("getSendRefsRequest exception: " + e);
+            return null;
+        }
     }
 
     public String postSendRefsRequest(String branchName, String sha) throws IOException, InterruptedException {
-        HttpResponse<String> response = client.send(postRefsRequest(branchName, sha), HttpResponse.BodyHandlers.ofString());
-        fileLog.writeToLog("postSendRefsRequest: " + response.headers());
-        return response.body();
+        try {
+            HttpResponse<String> response = client.send(postRefsRequest(branchName, sha), HttpResponse.BodyHandlers.ofString());
+            fileLog.writeToLog("postSendRefsRequest: " + response.headers());
+            return response.body();
+        } catch (Exception e) {
+            fileLog.writeToLog("postSendRefsRequest exception: " + e);
+            return null;
+        }
     }
 
     public String putSendUpdateFileRequest(String path, String contents, String branch, String sha, String commitMsg) throws IOException, InterruptedException {
-        HttpResponse<String> response = client.send(putUpdateFileRequest(path, contents, branch, sha, commitMsg), HttpResponse.BodyHandlers.ofString());
-        fileLog.writeToLog("putSendUpdateFileRequest: " + response.headers());
-        return response.body();
+        try {
+            HttpResponse<String> response = client.send(putUpdateFileRequest(path, contents, branch, sha, commitMsg), HttpResponse.BodyHandlers.ofString());
+            fileLog.writeToLog("putSendUpdateFileRequest: " + response.headers());
+            return response.body();
+        } catch (Exception e) {
+            fileLog.writeToLog("putSendUpdateFileRequest exception: " + e);
+            return null;
+        }
     }
 
     public String getPostCreatePRRequest(String title, String head, String body) throws IOException, InterruptedException {
-        HttpResponse<String> response = client.send(postCreatePRRequest(title, head, body), HttpResponse.BodyHandlers.ofString());
-        fileLog.writeToLog("getPostCreatePRRequest: " + response.headers());
-        return response.body();
+        try {
+            HttpResponse<String> response = client.send(postCreatePRRequest(title, head, body), HttpResponse.BodyHandlers.ofString());
+            fileLog.writeToLog("getPostCreatePRRequest: " + response.headers());
+            return response.body();
+        } catch (Exception e) {
+            fileLog.writeToLog("getPostCreatePRRequest exception: " + e);
+            return null;
+        }
     }
     // Get the main branch name from sysenv
     // search through the refs and if it matches grab the sha to create the main branch off of

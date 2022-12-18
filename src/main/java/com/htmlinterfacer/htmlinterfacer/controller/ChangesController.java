@@ -2,8 +2,7 @@ package com.htmlinterfacer.htmlinterfacer.controller;
 
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
 import com.htmlinterfacer.htmlinterfacer.api.connection.GHApi;
-import com.htmlinterfacer.htmlinterfacer.api.response.Ref;
-import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
+import com.htmlinterfacer.htmlinterfacer.api.record.Ref;
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -66,10 +65,12 @@ public class ChangesController {
 
     @FXML
     protected void handleCommit() throws IOException, InterruptedException {
+        // CREATE A POPUP -> To confirm the save
+        // Do something with the UI - lock the screen or similar
         String branchName = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now());
         List<Ref> refs = ghApi.getSendRefsRequest();
         // Check the below -> may change depending on the repo
-        ghApi.postSendRefsRequest(branchName, refs.get(currentFile).getRefObject().getSha());
+        ghApi.postSendRefsRequest(branchName, refs.get(currentFile).refObject().sha());
 
         for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
             if (ParentController.getParentHtmlFileList().get(i).isAltered()){
@@ -88,18 +89,11 @@ public class ChangesController {
 
         String response = ghApi.getPostCreatePRRequest("feat/update docs: " + branchName, branchName, "Changes to static files");
         fileLog.writeToLog("Create PR: " + response);
-        // Lock the ui or add reset button
+        // re-initialise here??
+        HtmlInterfacer.sceneChange("home.fxml");
 
-        // Also need to find a way to do bulk file commits
-        // So once the commit has been made we need to grab the new sha or disable it being edited again
-        // Also set 0 as always displayed when UI opens
-        // Each file saved push into an array which is looped through and commited
+        // Reset status and regrab the commit shas etc
+
         // Array is cleared and user goes back to main screen
     }
-    // TO DO:
-    // CREATE A POPUP -> To confirm the save
-    // Logging
-
-    // OPTIMISATIONS
-    // Refactor response classes to records
 }

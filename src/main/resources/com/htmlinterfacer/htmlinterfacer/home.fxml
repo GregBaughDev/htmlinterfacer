@@ -7,6 +7,7 @@
 <?import javafx.scene.web.WebView?>
 <?import javafx.scene.control.TextArea?>
 
+<?import javafx.scene.shape.Sphere?>
 <GridPane fx:controller="com.htmlinterfacer.htmlinterfacer.controller.HomeController" xmlns:fx="http://javafx.com/fxml"
           alignment="CENTER" hgap="10" vgap="10" prefHeight="800" prefWidth="1000">
 
@@ -15,6 +16,7 @@
         <Button fx:id="viewChanges" text="View changed files" onAction="#viewChangesList"></Button>
         <Button fx:id="toggleView" text="Edit file" onAction="#onToggleViewClick"></Button>
         <Button text="Reset changes" onAction="#handleReset"></Button>
+        <Button onAction="#handleQuit">Quit</Button>
         <Text>Files</Text>
     </VBox>
 

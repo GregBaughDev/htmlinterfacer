@@ -3,6 +3,8 @@ package com.htmlinterfacer.htmlinterfacer.controller;
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
 import com.htmlinterfacer.htmlinterfacer.Initialiser;
 import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
+import com.htmlinterfacer.htmlinterfacer.log.FileLog;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -10,7 +12,7 @@ import java.io.IOException;
 
 public class ParentController {
     private static ObservableList<HtmlFile> parentHtmlFileList = FXCollections.observableArrayList();
-
+    private FileLog fileLog = new FileLog();
     private Initialiser initialiser = new Initialiser();
 
     public ParentController() throws IOException {
@@ -25,7 +27,14 @@ public class ParentController {
                 e.printStackTrace();
             }
         });
-        initialiser.getBackgroundThread().setOnFailed(evt -> System.out.println("Thread failed"));
+        initialiser.getBackgroundThread().setOnFailed(evt -> {
+            try {
+                fileLog.writeToLog("Thread failed on initialise");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Platform.exit();
+        });
     }
 
     public static ObservableList<HtmlFile> getParentHtmlFileList() {

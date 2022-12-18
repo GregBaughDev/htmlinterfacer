@@ -1,8 +1,7 @@
 package com.htmlinterfacer.htmlinterfacer.controller;
 
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
-import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
-import com.htmlinterfacer.htmlinterfacer.log.FileLog;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -99,5 +98,10 @@ public class HomeController {
 
     private void setWebViewContent() {
         webView.getEngine().loadContent(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
+    }
+
+    @FXML
+    protected void handleQuit() {
+        Platform.exit();
     }
 }
