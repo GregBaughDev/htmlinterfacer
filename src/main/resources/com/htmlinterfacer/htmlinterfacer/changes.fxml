@@ -1,22 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
-<GridPane fx:controller="com.htmlinterfacer.htmlinterfacer.controller.ChangesController" xmlns:fx="http://javafx.com/fxml"
-          alignment="CENTER" hgap="10" vgap="10" prefHeight="800" prefWidth="1000">
+<GridPane alignment="CENTER" hgap="10" prefHeight="800" prefWidth="1000" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="com.htmlinterfacer.htmlinterfacer.controller.ChangesController">
 
-    <VBox GridPane.columnIndex="0" GridPane.columnSpan="4" fx:id="changedBox" >
-        <Text text="Changed files"></Text>
-        <Button fx:id="commitBtn" text="Commit changes" onAction="#handleCommit" disable="true"></Button>
-        <Button text="View file list" onAction="#switchView"></Button>
+    <VBox fx:id="changedBox" GridPane.columnIndex="0" GridPane.columnSpan="4">
+        <Text text="Changed files">
+         <VBox.margin>
+            <Insets bottom="20.0" top="20.0" />
+         </VBox.margin>
+         <font>
+            <Font name="Inter Bold" size="20.0" />
+         </font></Text>
+        <Button fx:id="commitBtn" disable="true" onAction="#handleCommit" text="Commit changes">
+         <font>
+            <Font name="Inter Regular" size="14.0" />
+         </font></Button>
+        <Button onAction="#switchView" text="View file list">
+         <font>
+            <Font name="Inter Regular" size="14.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="20.0" top="5.0" />
+         </VBox.margin></Button>
+      <Text layoutX="10.0" layoutY="49.0" text="Updated Files" underline="true">
+         <font>
+            <Font name="Inter Regular" size="16.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="5.0" />
+         </VBox.margin>
+      </Text>
     </VBox>
 
     <VBox GridPane.columnIndex="4" GridPane.columnSpan="4">
-        <WebView prefHeight="800" fx:id="changeView"></WebView>
+        <WebView fx:id="changeView" prefHeight="800">
+         <VBox.margin>
+            <Insets bottom="20.0" top="20.0" />
+         </VBox.margin></WebView>
     </VBox>
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
 
 </GridPane>

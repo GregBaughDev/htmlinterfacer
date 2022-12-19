@@ -9,13 +9,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -43,6 +43,7 @@ public class ChangesController {
                     Integer currValue = i;
                     Button stringButton = new Button(ParentController.getParentHtmlFileList().get(i).getPath());
                     stringButton.setOnAction(e -> handleFileChange(currValue));
+                    stringButton.setFont(Font.font("Inter Regular"));
                     changedBox.getChildren().add(stringButton);
                     commitBtn.setDisable(false);
                 }
