@@ -18,19 +18,19 @@ public class ParentController {
     public ParentController() throws IOException {
     }
 
-    public void initialize() throws InterruptedException, IOException {
+    public void initialize() {
         initialiser.createBackgroundThread(ParentController.getParentHtmlFileList());
         initialiser.getBackgroundThread().setOnSucceeded(evt -> {
             try {
                 HtmlInterfacer.sceneChange("home.fxml");
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
         initialiser.getBackgroundThread().setOnFailed(evt -> {
             try {
                 fileLog.writeToLog("Thread failed on initialise");
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             Platform.exit();

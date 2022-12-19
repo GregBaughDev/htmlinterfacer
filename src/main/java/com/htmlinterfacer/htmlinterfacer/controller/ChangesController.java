@@ -33,21 +33,22 @@ public class ChangesController {
 
     private Integer currentFile = 0;
 
-    private List<String> files = Arrays.asList(System.getenv("FILES").split(","));
-
     public ChangesController() throws IOException {
     }
 
-    public void initialize() {
-        for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
-            if (ParentController.getParentHtmlFileList().get(i).isAltered()) {
-                Integer currValue = i;
-                Button stringButton = new Button(currValue.toString());
-                stringButton.setId(currValue.toString());
-                stringButton.setOnAction(e -> handleFileChange(currValue));
-                changedBox.getChildren().add(stringButton);
-                commitBtn.setDisable(false);
+    public void initialize() throws IOException {
+        try {
+            for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
+                if (ParentController.getParentHtmlFileList().get(i).isAltered()) {
+                    Integer currValue = i;
+                    Button stringButton = new Button(ParentController.getParentHtmlFileList().get(i).getPath());
+                    stringButton.setOnAction(e -> handleFileChange(currValue));
+                    changedBox.getChildren().add(stringButton);
+                    commitBtn.setDisable(false);
+                }
             }
+        } catch (Exception e) {
+            fileLog.writeToLog("Changes Controller - Initialise exception: " + e);
         }
     }
 
@@ -66,6 +67,7 @@ public class ChangesController {
     @FXML
     protected void handleCommit() throws IOException, InterruptedException {
         // CREATE A POPUP -> To confirm the save
+        // Move to try/catch
         // Do something with the UI - lock the screen or similar
         String branchName = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now());
         List<Ref> refs = ghApi.getSendRefsRequest();

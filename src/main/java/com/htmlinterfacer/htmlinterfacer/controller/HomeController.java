@@ -1,6 +1,7 @@
 package com.htmlinterfacer.htmlinterfacer.controller;
 
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
+import com.htmlinterfacer.htmlinterfacer.log.FileLog;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,6 +14,7 @@ import javafx.scene.web.WebView;
 import java.io.IOException;
 
 public class HomeController {
+    private FileLog fileLog = new FileLog();
     @FXML
     private TextArea textArea;
 
@@ -36,14 +38,19 @@ public class HomeController {
     public HomeController() throws IOException {
     }
 
-    public void initialize() throws InterruptedException {
-        for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
-            Integer currValue = i;
-            Button stringButton = new Button(ParentController.getParentHtmlFileList().get(i).getPath());
-            stringButton.setOnAction(e -> handleFileChange(currValue));
-            fileBox.getChildren().add(stringButton);
+    public void initialize() throws IOException {
+        try {
+            for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
+                Integer currValue = i;
+                Button stringButton = new Button(ParentController.getParentHtmlFileList().get(i).getPath());
+                stringButton.setOnAction(e -> handleFileChange(currValue));
+                fileBox.getChildren().add(stringButton);
+            }
+            webView.getEngine().loadContent(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
+        } catch (Exception e) {
+            fileLog.writeToLog("Home Controller - Initialise exception: " + e);
+            Platform.exit();
         }
-        webView.getEngine().loadContent(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
     }
 
     public EventHandler<ActionEvent> handleFileChange(Integer index) {
@@ -73,16 +80,22 @@ public class HomeController {
         ParentController.getParentHtmlFileList().get(currentFile).setUpdatedHtml(textArea.getText());
         setTextAreaContent();
         setWebViewContent();
+        viewBox.setVisible(true);
+        editorBox.setVisible(false);
     }
 
     @FXML
     protected void viewChangesList() throws IOException {
-        currentFile = 0;
-        HtmlInterfacer.sceneChange("changes.fxml");
+        try {
+            currentFile = 0;
+            HtmlInterfacer.sceneChange("changes.fxml");
+        } catch (Exception e) {
+            fileLog.writeToLog("Home Controller - viewChangesList exception: " + e);
+        }
     }
 
     @FXML
-    protected void handleReset() throws IOException {
+    protected void handleReset() {
         for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
             ParentController.getParentHtmlFileList().get(i).setUpdatedHtml(
                     ParentController.getParentHtmlFileList().get(i).getOriginalHtml()
