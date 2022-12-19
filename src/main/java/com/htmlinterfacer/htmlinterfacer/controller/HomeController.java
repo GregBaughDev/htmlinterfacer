@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
 
 import java.io.IOException;
@@ -44,6 +45,7 @@ public class HomeController {
                 Integer currValue = i;
                 Button stringButton = new Button(ParentController.getParentHtmlFileList().get(i).getPath());
                 stringButton.setOnAction(e -> handleFileChange(currValue));
+                stringButton.setFont(Font.font("Inter Regular"));
                 fileBox.getChildren().add(stringButton);
             }
             webView.getEngine().loadContent(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
