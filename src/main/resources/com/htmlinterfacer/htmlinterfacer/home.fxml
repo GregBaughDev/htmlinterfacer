@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
-<GridPane alignment="CENTER" hgap="10" prefHeight="800" prefWidth="1000" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="com.htmlinterfacer.htmlinterfacer.controller.HomeController">
+<GridPane alignment="CENTER" hgap="10" prefHeight="800" prefWidth="1000" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.htmlinterfacer.htmlinterfacer.controller.HomeController">
 
     <VBox fx:id="fileBox" GridPane.columnIndex="0" GridPane.columnSpan="2">
         <Text text="Files">
@@ -60,7 +60,7 @@
 
     <VBox fx:id="editorBox" visible="false" GridPane.columnIndex="2" GridPane.columnSpan="4">
         <TextArea fx:id="textArea" prefHeight="800" />
-        <Button fx:id="saveBtn" onAction="#save" prefHeight="77.0" prefWidth="265.0" text="Save" underline="true">
+        <Button fx:id="saveBtn" onAction="#save" prefHeight="77.0" prefWidth="265.0" text="Save">
          <font>
             <Font name="Inter Bold" size="18.0" />
          </font></Button>

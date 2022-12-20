@@ -8,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
@@ -26,10 +28,19 @@ public class ChangesController {
     private Button commitBtn;
 
     @FXML
+    private Button switchView;
+
+    @FXML
     private VBox changedBox;
 
     @FXML
     private WebView changeView;
+
+    @FXML
+    private HBox progressIndicator;
+
+    @FXML
+    private ProgressBar progressBar;
 
     private Integer currentFile = 0;
 
@@ -67,14 +78,17 @@ public class ChangesController {
 
     @FXML
     protected void handleCommit() throws IOException, InterruptedException {
-        // CREATE A POPUP -> To confirm the save
+        // Need to move this into it's own thread
+        commitBtn.setDisable(true);
+        switchView.setDisable(true);
+        progressIndicator.setVisible(true);
+        progressBar.setProgress(0.1);
         // Move to try/catch
-        // Do something with the UI - lock the screen or similar
         String branchName = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now());
         List<Ref> refs = ghApi.getSendRefsRequest();
         // Check the below -> may change depending on the repo
         ghApi.postSendRefsRequest(branchName, refs.get(currentFile).refObject().sha());
-
+        progressBar.setProgress(0.5);
         for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
             if (ParentController.getParentHtmlFileList().get(i).isAltered()){
                 String changedFile = ParentController.getParentHtmlFileList().get(i).getUpdatedHtml();
@@ -89,14 +103,16 @@ public class ChangesController {
                 fileLog.writeToLog("File Commit: " + response);
             }
         }
-
+        progressBar.setProgress(0.8);
         String response = ghApi.getPostCreatePRRequest("feat/update docs: " + branchName, branchName, "Changes to static files");
         fileLog.writeToLog("Create PR: " + response);
         // re-initialise here??
+        progressBar.setProgress(1);
         HtmlInterfacer.sceneChange("home.fxml");
 
         // Reset status and regrab the commit shas etc
 
         // Array is cleared and user goes back to main screen
     }
+    //
 }

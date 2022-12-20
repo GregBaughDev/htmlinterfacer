@@ -84,6 +84,7 @@ public class HomeController {
         setWebViewContent();
         viewBox.setVisible(true);
         editorBox.setVisible(false);
+        toggleView.setText("Edit file");
     }
 
     @FXML

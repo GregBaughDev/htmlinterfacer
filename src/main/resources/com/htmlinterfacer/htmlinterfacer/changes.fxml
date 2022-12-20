@@ -2,15 +2,17 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
-<GridPane alignment="CENTER" hgap="10" prefHeight="800" prefWidth="1000" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="com.htmlinterfacer.htmlinterfacer.controller.ChangesController">
+<GridPane alignment="CENTER" hgap="10" prefHeight="800" prefWidth="1000" vgap="10" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.htmlinterfacer.htmlinterfacer.controller.ChangesController">
 
     <VBox fx:id="changedBox" GridPane.columnIndex="0" GridPane.columnSpan="4">
         <Text text="Changed files">
@@ -24,7 +26,7 @@
          <font>
             <Font name="Inter Regular" size="14.0" />
          </font></Button>
-        <Button onAction="#switchView" text="View file list">
+        <Button onAction="#switchView" text="View file list" fx:id="switchView">
          <font>
             <Font name="Inter Regular" size="14.0" />
          </font>
@@ -46,6 +48,23 @@
          <VBox.margin>
             <Insets bottom="20.0" top="20.0" />
          </VBox.margin></WebView>
+      <HBox prefHeight="100.0" prefWidth="200.0" fx:id="progressIndicator" visible="false">
+         <children>
+            <Text text="Saving changes to GitHub" wrappingWidth="196.68182373046875">
+               <font>
+                  <Font name="Inter Regular" size="16.0" />
+               </font>
+            </Text>
+            <ProgressBar prefHeight="30.0" prefWidth="697.0" progress="0.0" fx:id="progressBar">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </ProgressBar>
+         </children>
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
+      </HBox>
     </VBox>
    <columnConstraints>
       <ColumnConstraints />

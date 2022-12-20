@@ -1,7 +1,7 @@
 package com.htmlinterfacer.htmlinterfacer.controller;
 
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
-import com.htmlinterfacer.htmlinterfacer.Initialiser;
+import com.htmlinterfacer.htmlinterfacer.task.Initialiser;
 import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
 import javafx.application.Platform;

@@ -14,7 +14,7 @@ public enum GHQueryStrings {
 
     private final String query;
 
-    private GHQueryStrings(String query) {
+    GHQueryStrings(String query) {
         this.query = query;
     }
 

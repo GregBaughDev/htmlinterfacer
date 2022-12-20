@@ -1,4 +1,4 @@
-package com.htmlinterfacer.htmlinterfacer;
+package com.htmlinterfacer.htmlinterfacer.task;
 
 import com.htmlinterfacer.htmlinterfacer.api.connection.GHApi;
 import com.htmlinterfacer.htmlinterfacer.api.record.File;
@@ -57,7 +57,7 @@ public class Initialiser extends Task {
     }
 
     @Override
-    protected Object call() throws Exception {
+    protected Object call() {
         return null;
     }
 }

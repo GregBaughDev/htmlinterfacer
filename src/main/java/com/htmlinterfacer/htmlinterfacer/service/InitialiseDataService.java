@@ -1,5 +1,6 @@
-package com.htmlinterfacer.htmlinterfacer;
+package com.htmlinterfacer.htmlinterfacer.service;
 
+import com.htmlinterfacer.htmlinterfacer.task.Initialiser;
 import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
