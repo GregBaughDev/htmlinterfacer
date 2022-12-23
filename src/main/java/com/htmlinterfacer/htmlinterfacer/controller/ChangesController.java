@@ -4,9 +4,11 @@ import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
 import com.htmlinterfacer.htmlinterfacer.api.connection.GHApi;
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
 import com.htmlinterfacer.htmlinterfacer.task.Committer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
@@ -73,12 +75,21 @@ public class ChangesController {
         HtmlInterfacer.sceneChange("home.fxml");
     }
 
+    public void commitCompleteShowAlert(Alert.AlertType alertType, String title, String content) throws IOException {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        fileLog.writeToLog("Alert shown - Title: " + title + ", Content: " + content);
+        alert.show();
+        alert.setOnCloseRequest(e -> Platform.exit());
+    }
+
     @FXML
     protected void handleCommit() {
         committer.createBackgroundThread(commitBtn, switchView, progressIndicator, progressBar, currentFile);
         committer.getBackgroundThread().setOnSucceeded(evt -> {
             try {
-                HtmlInterfacer.sceneChange("home.fxml");
+                commitCompleteShowAlert(Alert.AlertType.INFORMATION, "Commit complete", "Commit complete - application will now close");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -86,10 +97,10 @@ public class ChangesController {
         committer.getBackgroundThread().setOnFailed(evt -> {
             try {
                 fileLog.writeToLog("Thread failed on commit");
+                commitCompleteShowAlert(Alert.AlertType.ERROR, "Commit failed", "Commit failed - Application will now quit. Please reload and try again.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
-        // Maybe create a dialog box and then close the application
     }
 }
