@@ -1,6 +1,6 @@
 package com.htmlinterfacer.htmlinterfacer.service;
 
-import com.htmlinterfacer.htmlinterfacer.task.Comitter;
+import com.htmlinterfacer.htmlinterfacer.task.Committer;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
@@ -10,7 +10,7 @@ public class ComitterService extends Service<Void> {
     @Override
     protected Task<Void> createTask() {
         try {
-            return new Comitter();
+            return new Committer();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
