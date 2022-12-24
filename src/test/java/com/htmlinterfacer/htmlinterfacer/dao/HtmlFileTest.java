@@ -41,16 +41,4 @@ class HtmlFileTest {
         assertEquals("Test html", htmlFile.getUpdatedHtml());
         assertEquals("Test html", htmlFile.getOriginalHtml());
     }
-
-    @Test
-    @DisplayName("Should return sha")
-    void testGetSha() {
-        assertEquals("1234", htmlFile.getSha());
-    }
-
-    @Test
-    @DisplayName("Should return path")
-    void testGetPath() {
-        assertEquals("test/file.html", htmlFile.getPath());
-    }
 }
