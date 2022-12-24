@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HtmlInterfacer extends Application {
-    private FileLog fileLog = new FileLog();
+    private final FileLog fileLog = new FileLog();
     private static Stage primaryStage;
 
     public HtmlInterfacer() throws IOException {
@@ -18,10 +18,9 @@ public class HtmlInterfacer extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         try {
-            this.primaryStage = stage;
+            primaryStage = stage;
             FXMLLoader fxmlLoader = new FXMLLoader(HtmlInterfacer.class.getResource("parent.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-            scene.getStylesheets().add(getClass().getResource("/home.css").toExternalForm());
 
             stage.setTitle("HTMLinterfacer");
             stage.setScene(scene);
@@ -40,10 +39,8 @@ public class HtmlInterfacer extends Application {
 
     public static void sceneChange(String fxml) {
         try {
-            // Try to reuse this and return the scene, save to var and pass to stage
             FXMLLoader fxmlLoader = new FXMLLoader(HtmlInterfacer.class.getResource(fxml));
             Scene newScene = new Scene(fxmlLoader.load());
-            newScene.getStylesheets().add(HtmlInterfacer.class.getResource("/home.css").toExternalForm());
             primaryStage.setScene(newScene);
         } catch (Exception e) {
             e.printStackTrace();

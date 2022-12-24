@@ -93,7 +93,7 @@ public class GHApi {
                 .build();
     }
 
-    public List<Repo> getSendRepoContentRequest() throws IOException, InterruptedException {
+    public List<Repo> getSendRepoContentRequest() throws IOException {
         try {
             HttpResponse<String> response = client.send(getRepoContentRequest(), HttpResponse.BodyHandlers.ofString());
             fileLog.writeToLog("getSendRepoContentRequest: " + response.headers());
@@ -104,7 +104,7 @@ public class GHApi {
         }
     }
 
-    public File getSendFileContentRequest(String file) throws IOException, InterruptedException {
+    public File getSendFileContentRequest(String file) throws IOException {
         try {
             HttpResponse<String> response = client.send(getFileContentRequest(file), HttpResponse.BodyHandlers.ofString());
             fileLog.writeToLog("getSendFileContentRequest: " + response.headers());
@@ -115,7 +115,7 @@ public class GHApi {
         }
     }
 
-    public List<Ref> getSendRefsRequest() throws IOException, InterruptedException {
+    public List<Ref> getSendRefsRequest() throws IOException {
         try {
             HttpResponse<String> response = client.send(getRefsRequest(), HttpResponse.BodyHandlers.ofString());
             fileLog.writeToLog("getSendRefsRequest: " + response.headers());
@@ -126,7 +126,7 @@ public class GHApi {
         }
     }
 
-    public String postSendRefsRequest(String branchName, String sha) throws IOException, InterruptedException {
+    public String postSendRefsRequest(String branchName, String sha) throws IOException {
         try {
             HttpResponse<String> response = client.send(postRefsRequest(branchName, sha), HttpResponse.BodyHandlers.ofString());
             fileLog.writeToLog("postSendRefsRequest: " + response.headers());
@@ -137,7 +137,7 @@ public class GHApi {
         }
     }
 
-    public String putSendUpdateFileRequest(String path, String contents, String branch, String sha, String commitMsg) throws IOException, InterruptedException {
+    public String putSendUpdateFileRequest(String path, String contents, String branch, String sha, String commitMsg) throws IOException {
         try {
             HttpResponse<String> response = client.send(putUpdateFileRequest(path, contents, branch, sha, commitMsg), HttpResponse.BodyHandlers.ofString());
             fileLog.writeToLog("putSendUpdateFileRequest: " + response.headers());
@@ -148,7 +148,7 @@ public class GHApi {
         }
     }
 
-    public String getPostCreatePRRequest(String title, String head, String body) throws IOException, InterruptedException {
+    public String getPostCreatePRRequest(String title, String head, String body) throws IOException {
         try {
             HttpResponse<String> response = client.send(postCreatePRRequest(title, head, body), HttpResponse.BodyHandlers.ofString());
             fileLog.writeToLog("getPostCreatePRRequest: " + response.headers());
@@ -158,9 +158,4 @@ public class GHApi {
             return null;
         }
     }
-    // Get the main branch name from sysenv
-    // search through the refs and if it matches grab the sha to create the main branch off of
-
-    // Get repo content
-    // -> Get recursive and if type == blob, store the url -> get the blob -> get the content
 }

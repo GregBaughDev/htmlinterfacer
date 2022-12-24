@@ -6,7 +6,7 @@ import javafx.concurrent.Task;
 
 import java.io.IOException;
 
-public class ComitterService extends Service<Void> {
+public class CommitterService extends Service<Void> {
     @Override
     protected Task<Void> createTask() {
         try {
