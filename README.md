@@ -6,7 +6,9 @@ HTMLInterfacer is a standalone GUI application which allows static HTML files st
 in a WYSIWYG editor. Similar to a text editor, it allows anyone to update the content, commit the changes
 and open a PR, without having to have a working knowledge of Git or IDEs.
   
-### WIP
-  
+### WIP - To do
+- Tests
+- Script for compiling to executable
+
 #### License
 GNU GPLv3
