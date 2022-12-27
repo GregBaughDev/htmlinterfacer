@@ -1,5 +1,7 @@
 package com.htmlinterfacer.htmlinterfacer.api.connection;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public enum GHQueryStrings {
     GH_API_URI ("https://api.github.com/"),
     REPOS ("repos/"),
@@ -9,8 +11,8 @@ public enum GHQueryStrings {
     PULLS ("pulls"),
     REFS ("refs"),
     RECURSIVE_QUERY ("?recursive=true"),
-    OWNER (System.getenv("GHOWNER") + "/"),
-    REPO (System.getenv("GHREPO") + "/");
+    OWNER (EnvironmentVars.owner + "/"),
+    REPO (EnvironmentVars.repo + "/");
 
     private final String query;
 
@@ -20,5 +22,12 @@ public enum GHQueryStrings {
 
     public String getQuery() {
         return query;
+    }
+
+    private static class EnvironmentVars {
+        private static final Dotenv dotenv = Dotenv.load();
+
+        private final static String owner = dotenv.get("GHOWNER");
+        private final static String repo = dotenv.get("GHREPO");
     }
 }

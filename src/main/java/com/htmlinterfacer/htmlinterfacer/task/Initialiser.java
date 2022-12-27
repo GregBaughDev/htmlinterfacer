@@ -4,6 +4,7 @@ import com.htmlinterfacer.htmlinterfacer.api.connection.GHApi;
 import com.htmlinterfacer.htmlinterfacer.api.record.File;
 import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -14,23 +15,24 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class Initialiser extends Task {
-    private GHApi ghApi = new GHApi();
+    private final GHApi ghApi = new GHApi();
     private Service<Void> backgroundThread;
-    private FileLog fileLog = new FileLog();
-    private Pattern pattern = Pattern.compile("html");
+    private final FileLog fileLog = new FileLog();
+    private final Pattern pattern = Pattern.compile("html");
+    private final Dotenv dotenv = Dotenv.load();
 
-    List<String> envFiles = List.of(System.getenv("FILES").split(","));
+    List<String> envFiles = List.of(dotenv.get("FILES").split(","));
 
     public Initialiser() throws IOException {
     }
 
     public void createBackgroundThread(ObservableList<HtmlFile> htmlFileList) {
-        backgroundThread = new Service<Void>() {
+        backgroundThread = new Service<>() {
             @Override
             protected Task<Void> createTask() {
-                return new Task<Void>() {
+                return new Task<>() {
                     @Override
-                    protected Void call() throws Exception {
+                    protected Void call() {
                         for (String envFile : envFiles) {
                             if (!pattern.matcher(envFile.substring(envFile.length() - 4)).matches()) {
                                 fileLog.writeToLog("createBackgroundThread - File is not HTML: " + envFile);

@@ -1,7 +1,6 @@
 package com.htmlinterfacer.htmlinterfacer.controller;
 
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
-import com.htmlinterfacer.htmlinterfacer.api.connection.GHApi;
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
 import com.htmlinterfacer.htmlinterfacer.task.Committer;
 import javafx.application.Platform;
@@ -19,8 +18,7 @@ import javafx.scene.web.WebView;
 import java.io.IOException;
 
 public class ChangesController {
-    private GHApi ghApi = new GHApi();
-    private FileLog fileLog = new FileLog();
+    private final FileLog fileLog = new FileLog();
     @FXML
     private Button commitBtn;
 
@@ -46,7 +44,7 @@ public class ChangesController {
     public ChangesController() throws IOException {
     }
 
-    public void initialize() throws IOException {
+    public void initialize() {
         try {
             for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
                 if (ParentController.getParentHtmlFileList().get(i).isAltered()) {
@@ -70,12 +68,12 @@ public class ChangesController {
     }
 
     @FXML
-    protected void switchView() throws IOException {
+    protected void switchView() {
         currentFile = 0;
         HtmlInterfacer.sceneChange("home.fxml");
     }
 
-    public void commitCompleteShowAlert(Alert.AlertType alertType, String title, String content) throws IOException {
+    public void commitCompleteShowAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setContentText(content);
@@ -86,7 +84,7 @@ public class ChangesController {
 
     @FXML
     protected void handleCommit() {
-        committer.createBackgroundThread(commitBtn, switchView, progressIndicator, progressBar, currentFile);
+        committer.createBackgroundThread(commitBtn, switchView, progressIndicator, progressBar);
         committer.getBackgroundThread().setOnSucceeded(evt -> {
             try {
                 commitCompleteShowAlert(Alert.AlertType.INFORMATION, "Commit complete", "Commit complete - application will now close");
