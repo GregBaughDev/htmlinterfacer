@@ -6,8 +6,8 @@ import com.htmlinterfacer.htmlinterfacer.api.record.File;
 import com.htmlinterfacer.htmlinterfacer.api.record.Ref;
 import com.htmlinterfacer.htmlinterfacer.api.record.Repo;
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
+import io.github.cdimascio.dotenv.Dotenv;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.*;
 import java.util.List;
@@ -16,8 +16,10 @@ public class GHApi {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final FileLog fileLog = new FileLog();
     private final HttpClient client = HttpClient.newHttpClient();
+    private final Dotenv dotenv = Dotenv.load();
+    private final String oauth = dotenv.get("OAUTH");
 
-    public GHApi() throws IOException {
+    public GHApi() {
     }
 
     private HttpRequest getRepoContentRequest() {
@@ -25,7 +27,7 @@ public class GHApi {
                 .newBuilder()
                 .uri(URI.create(GHQueryURI.GET_REPO_CONTENT_STRING.getQuery()))
                 .header("Accept", "application/vnd.github+json")
-                .header("Authorization", "Bearer " + System.getenv("OAUTH"))
+                .header("Authorization", "Bearer " + oauth)
                 .GET()
                 .build();
     }
@@ -35,7 +37,7 @@ public class GHApi {
                 .newBuilder()
                 .uri(URI.create(GHQueryURI.GET_FILE_CONTENT_STRING.getQuery() + file))
                 .header("Accept", "application/vnd.github+json")
-                .header("Authorization", "Bearer " + System.getenv("OAUTH"))
+                .header("Authorization", "Bearer " + oauth)
                 .GET()
                 .build();
     }
@@ -45,7 +47,7 @@ public class GHApi {
                 .newBuilder()
                 .uri(URI.create(GHQueryURI.GET_REFS_STRING.getQuery()))
                 .header("Accept", "application/vnd.github+json")
-                .header("Authorization", "Bearer " + System.getenv("OAUTH"))
+                .header("Authorization", "Bearer " + oauth)
                 .GET()
                 .build();
     }
@@ -58,7 +60,7 @@ public class GHApi {
                 .newBuilder()
                 .uri(URI.create(GHQueryURI.POST_REFS_STRING.getQuery()))
                 .header("Accept", "application/vnd.github+json")
-                .header("Authorization", "Bearer " + System.getenv("OAUTH"))
+                .header("Authorization", "Bearer " + oauth)
                 .POST(request)
                 .build();
     }
@@ -73,7 +75,7 @@ public class GHApi {
                 .newBuilder()
                 .uri(URI.create(GHQueryURI.PUT_UPDATE_FILE_STRINGS.getQuery() + path))
                 .header("Accept", "application/vnd.github+json")
-                .header("Authorization", "Bearer " + System.getenv("OAUTH"))
+                .header("Authorization", "Bearer " + oauth)
                 .PUT(request)
                 .build();
     }
@@ -83,17 +85,17 @@ public class GHApi {
             "{\"title\": \"" + title + "\", " +
                     "\"head\": \"" + head + "\", " +
                     "\"body\": \"" + body + "\", " +
-                    "\"base\" : \"main\"}");
+                    "\"base\" : \"" + dotenv.get("BASE_BRANCH") + "\" }");
         return HttpRequest
                 .newBuilder()
                 .uri(URI.create(GHQueryURI.POST_CREATE_PR_STRING.getQuery()))
                 .header("Accept", "application/vnd.github+json")
-                .header("Authorization", "Bearer " + System.getenv("OAUTH"))
+                .header("Authorization", "Bearer " + oauth)
                 .POST(request)
                 .build();
     }
 
-    public List<Repo> getSendRepoContentRequest() throws IOException {
+    public List<Repo> getSendRepoContentRequest() {
         try {
             HttpResponse<String> response = client.send(getRepoContentRequest(), HttpResponse.BodyHandlers.ofString());
             fileLog.writeToLog("getSendRepoContentRequest: " + response.headers());
@@ -104,7 +106,7 @@ public class GHApi {
         }
     }
 
-    public File getSendFileContentRequest(String file) throws IOException {
+    public File getSendFileContentRequest(String file) {
         try {
             HttpResponse<String> response = client.send(getFileContentRequest(file), HttpResponse.BodyHandlers.ofString());
             fileLog.writeToLog("getSendFileContentRequest: " + response.headers());
@@ -115,7 +117,7 @@ public class GHApi {
         }
     }
 
-    public List<Ref> getSendRefsRequest() throws IOException {
+    public List<Ref> getSendRefsRequest() {
         try {
             HttpResponse<String> response = client.send(getRefsRequest(), HttpResponse.BodyHandlers.ofString());
             fileLog.writeToLog("getSendRefsRequest: " + response.headers());
@@ -126,7 +128,7 @@ public class GHApi {
         }
     }
 
-    public String postSendRefsRequest(String branchName, String sha) throws IOException {
+    public String postSendRefsRequest(String branchName, String sha) {
         try {
             HttpResponse<String> response = client.send(postRefsRequest(branchName, sha), HttpResponse.BodyHandlers.ofString());
             fileLog.writeToLog("postSendRefsRequest: " + response.headers());
@@ -137,7 +139,7 @@ public class GHApi {
         }
     }
 
-    public String putSendUpdateFileRequest(String path, String contents, String branch, String sha, String commitMsg) throws IOException {
+    public String putSendUpdateFileRequest(String path, String contents, String branch, String sha, String commitMsg) {
         try {
             HttpResponse<String> response = client.send(putUpdateFileRequest(path, contents, branch, sha, commitMsg), HttpResponse.BodyHandlers.ofString());
             fileLog.writeToLog("putSendUpdateFileRequest: " + response.headers());
@@ -148,7 +150,7 @@ public class GHApi {
         }
     }
 
-    public String getPostCreatePRRequest(String title, String head, String body) throws IOException {
+    public String getPostCreatePRRequest(String title, String head, String body) {
         try {
             HttpResponse<String> response = client.send(postCreatePRRequest(title, head, body), HttpResponse.BodyHandlers.ofString());
             fileLog.writeToLog("getPostCreatePRRequest: " + response.headers());

@@ -12,10 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
 
-import java.io.IOException;
-
 public class HomeController {
-    private FileLog fileLog = new FileLog();
+    private final FileLog fileLog = new FileLog();
     @FXML
     private TextArea textArea;
 
@@ -36,10 +34,10 @@ public class HomeController {
 
     private Integer currentFile = 0;
 
-    public HomeController() throws IOException {
+    public HomeController() {
     }
 
-    public void initialize() throws IOException {
+    public void initialize() {
         try {
             for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
                 Integer currValue = i;
@@ -88,7 +86,7 @@ public class HomeController {
     }
 
     @FXML
-    protected void viewChangesList() throws IOException {
+    protected void viewChangesList() {
         try {
             currentFile = 0;
             HtmlInterfacer.sceneChange("changes.fxml");

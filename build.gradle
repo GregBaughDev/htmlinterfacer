@@ -36,6 +36,7 @@ javafx {
 dependencies {
     implementation("org.kohsuke:github-api:1.313")
     implementation('com.fasterxml.jackson.core:jackson-databind:2.14.0')
+    implementation('io.github.cdimascio:dotenv-java:2.3.1')
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }

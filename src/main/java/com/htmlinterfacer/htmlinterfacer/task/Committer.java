@@ -19,8 +19,8 @@ import java.util.List;
 
 public class Committer extends Task {
     private Service<Void> backgroundThread;
-    private FileLog fileLog = new FileLog();
-    private GHApi ghApi = new GHApi();
+    private final FileLog fileLog = new FileLog();
+    private final GHApi ghApi = new GHApi();
 
     public Committer() throws IOException {
     }
@@ -29,15 +29,14 @@ public class Committer extends Task {
             Button commitBtn,
             Button switchView,
             HBox progressIndicator,
-            ProgressBar progressBar,
-            Integer currentFile
+            ProgressBar progressBar
     ) {
         backgroundThread = new Service<>() {
             @Override
             protected Task<Void> createTask() {
                 return new Task<>() {
                     @Override
-                    protected Void call() throws Exception {
+                    protected Void call() {
                         try {
                             commitBtn.setDisable(true);
                             switchView.setDisable(true);
@@ -46,7 +45,7 @@ public class Committer extends Task {
 
                             String branchName = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now());
                             List<Ref> refs = ghApi.getSendRefsRequest();
-                            ghApi.postSendRefsRequest(branchName, refs.get(currentFile).refObject().sha());
+                            ghApi.postSendRefsRequest(branchName, refs.get(0).refObject().sha());
                             progressBar.setProgress(0.5);
 
                             for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
@@ -79,19 +78,23 @@ public class Committer extends Task {
         return null;
     }
 
-    public void commitChangedFile(String branchName, int i) throws IOException, InterruptedException {
-        String changedFile = ParentController.getParentHtmlFileList().get(i).getUpdatedHtml();
-        String response = ghApi.putSendUpdateFileRequest(
-                ParentController.getParentHtmlFileList().get(i).getPath(),
-                Base64.getEncoder().encodeToString(changedFile.getBytes(StandardCharsets.UTF_8)),
-                branchName,
-                ParentController.getParentHtmlFileList().get(i).getSha(),
-                "Commit to file: " + ParentController.getParentHtmlFileList().get(i).getPath()
-        );
-        fileLog.writeToLog("File Commit: " + response);
+    public void commitChangedFile(String branchName, int i) {
+        try {
+            String changedFile = ParentController.getParentHtmlFileList().get(i).getUpdatedHtml();
+            String response = ghApi.putSendUpdateFileRequest(
+                    ParentController.getParentHtmlFileList().get(i).getPath(),
+                    Base64.getEncoder().encodeToString(changedFile.getBytes(StandardCharsets.UTF_8)),
+                    branchName,
+                    ParentController.getParentHtmlFileList().get(i).getSha(),
+                    "Commit to file: " + ParentController.getParentHtmlFileList().get(i).getPath()
+            );
+            fileLog.writeToLog("File Commit: " + response);
+        } catch (Exception e) {
+            fileLog.writeToLog("commitChangedFile method exception - file path: " + ParentController.getParentHtmlFileList().get(i).getPath() + ", exception: " + e);
+        }
     }
 
-    public void createPr(String branchName) throws IOException, InterruptedException {
+    public void createPr(String branchName) {
         String response = ghApi.getPostCreatePRRequest("feat/update docs: " + branchName, branchName, "Changes to static files");
         fileLog.writeToLog("Create PR: " + response);
     }

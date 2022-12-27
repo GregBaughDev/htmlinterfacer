@@ -1,6 +1,7 @@
 package com.htmlinterfacer.htmlinterfacer;
 
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class HtmlInterfacer extends Application {
+    private static final Dotenv dotEnv = Dotenv.load();
     private static final FileLog fileLog = new FileLog();
     private static Stage primaryStage;
 
@@ -55,9 +57,9 @@ public class HtmlInterfacer extends Application {
     }
 
     public static boolean isSystemEnvsPopulated() {
-        return System.getenv("GHREPO") != null &&
-                System.getenv("GHOWNER") != null &&
-                System.getenv("OAUTH") != null &&
-                System.getenv("FILES") != null;
+        return dotEnv.get("GHREPO") != null &&
+                dotEnv.get("GHOWNER") != null &&
+                dotEnv.get("OAUTH") != null &&
+                dotEnv.get("FILES") != null;
     }
 }
