@@ -2,21 +2,20 @@ package com.htmlinterfacer.htmlinterfacer;
 
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class HtmlInterfacer extends Application {
-    private final FileLog fileLog = new FileLog();
+    private static final FileLog fileLog = new FileLog();
     private static Stage primaryStage;
 
-    public HtmlInterfacer() throws IOException {
+    public HtmlInterfacer() {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         try {
             primaryStage = stage;
             FXMLLoader fxmlLoader = new FXMLLoader(HtmlInterfacer.class.getResource("parent.fxml"));
@@ -30,11 +29,19 @@ public class HtmlInterfacer extends Application {
             stage.show();
         } catch (Exception e) {
             fileLog.writeToLog("Start exception: " + e);
+            Platform.exit();
         }
     }
 
     public static void main(String[] args) {
-        launch();
+        if (isSystemEnvsPopulated()) {
+            launch();
+        } else {
+            fileLog.writeToLog("Main Exception - Env vars not populated");
+            Platform.exit();
+        }
+        // https://medium.com/information-and-technology/test-driven-development-in-javafx-with-testfx-66a84cd561e0
+        // Write script for compiling
     }
 
     public static void sceneChange(String fxml) {
@@ -45,5 +52,12 @@ public class HtmlInterfacer extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean isSystemEnvsPopulated() {
+        return System.getenv("GHREPO") != null &&
+                System.getenv("GHOWNER") != null &&
+                System.getenv("OAUTH") != null &&
+                System.getenv("FILES") != null;
     }
 }
