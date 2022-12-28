@@ -12,7 +12,7 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
@@ -43,7 +43,7 @@ public class Committer extends Task {
                             progressIndicator.setVisible(true);
                             progressBar.setProgress(0.1);
 
-                            String branchName = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now());
+                            String branchName = DateTimeFormatter.ofPattern("dd/MM/yyyy-HH-mm").format(LocalDateTime.now());
                             List<Ref> refs = ghApi.getSendRefsRequest();
                             ghApi.postSendRefsRequest(branchName, refs.get(0).refObject().sha());
                             progressBar.setProgress(0.5);
