@@ -10,5 +10,11 @@ and open a PR, without having to have a working knowledge of Git or IDEs.
 - Tests
 - Script for compiling to executable
 
+### Improvements
+
+- Recursively get repo contents without manually adding file list to environment vars
+
+Feel free to open an issue for any bugs/improvements
+
 #### License
 GNU GPLv3
