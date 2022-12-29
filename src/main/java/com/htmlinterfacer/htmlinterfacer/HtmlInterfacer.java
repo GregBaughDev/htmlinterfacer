@@ -60,6 +60,7 @@ public class HtmlInterfacer extends Application {
         return dotEnv.get("GHREPO") != null &&
                 dotEnv.get("GHOWNER") != null &&
                 dotEnv.get("OAUTH") != null &&
-                dotEnv.get("FILES") != null;
+                dotEnv.get("FILES") != null &&
+                dotEnv.get("BASE_BRANCH") != null;
     }
 }
