@@ -39,10 +39,11 @@ public class HomeController {
         try {
             for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
                 Integer currValue = i;
-                Button stringButton = new Button(ParentController.getParentHtmlFileList().get(i).getPath());
-                stringButton.setOnAction(e -> handleFileChange(currValue));
-                stringButton.setFont(Font.font("Inter Regular"));
-                fileBox.getChildren().add(stringButton);
+                Button fileButton = new Button(ParentController.getParentHtmlFileList().get(i).getPath());
+                fileButton.setOnAction(e -> handleFileChange(currValue));
+                fileButton.setFont(Font.font("Inter Regular"));
+                fileButton.setMaxWidth(150);
+                fileBox.getChildren().add(fileButton);
             }
             webView.getEngine().loadContent(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
         } catch (Exception e) {

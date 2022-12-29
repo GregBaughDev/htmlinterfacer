@@ -49,10 +49,11 @@ public class ChangesController {
             for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
                 if (ParentController.getParentHtmlFileList().get(i).isAltered()) {
                     Integer currValue = i;
-                    Button stringButton = new Button(ParentController.getParentHtmlFileList().get(i).getPath());
-                    stringButton.setOnAction(e -> handleFileChange(currValue));
-                    stringButton.setFont(Font.font("Inter Regular"));
-                    changedBox.getChildren().add(stringButton);
+                    Button fileButton = new Button(ParentController.getParentHtmlFileList().get(i).getPath());
+                    fileButton.setOnAction(e -> handleFileChange(currValue));
+                    fileButton.setFont(Font.font("Inter Regular"));
+                    fileButton.setMaxWidth(150);
+                    changedBox.getChildren().add(fileButton);
                     commitBtn.setDisable(false);
                 }
             }
