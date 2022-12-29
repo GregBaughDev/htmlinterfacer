@@ -3,8 +3,6 @@ package com.htmlinterfacer.htmlinterfacer.controller;
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -53,11 +51,10 @@ public class HomeController {
         }
     }
 
-    public EventHandler<ActionEvent> handleFileChange(Integer index) {
+    public void handleFileChange(Integer index) {
         currentFile = index;
         textArea.setText(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
         webView.getEngine().loadContent(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
-        return null;
     }
 
     @FXML

@@ -16,7 +16,8 @@ public class FileLog {
         try {
             FileWriter fileWriter = new FileWriter(fileLog, true);
             fileWriter.append(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
-            fileWriter.append(" -> " + log + "\n");
+            String stringLog = " -> " + log + "\n";
+            fileWriter.append(stringLog);
             fileWriter.close();
         } catch (IOException exception) {
             exception.printStackTrace();

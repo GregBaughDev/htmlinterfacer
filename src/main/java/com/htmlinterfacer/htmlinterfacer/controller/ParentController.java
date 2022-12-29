@@ -11,9 +11,9 @@ import javafx.collections.ObservableList;
 import java.io.IOException;
 
 public class ParentController {
-    private static ObservableList<HtmlFile> parentHtmlFileList = FXCollections.observableArrayList();
-    private FileLog fileLog = new FileLog();
-    private Initialiser initialiser = new Initialiser();
+    private final static ObservableList<HtmlFile> parentHtmlFileList = FXCollections.observableArrayList();
+    private final FileLog fileLog = new FileLog();
+    private final Initialiser initialiser = new Initialiser();
 
     public ParentController() throws IOException {
     }
