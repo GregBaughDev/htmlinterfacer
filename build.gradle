@@ -13,7 +13,7 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.8.1'
+    junitVersion = '5.9.0'
 }
 
 sourceCompatibility = '17'
@@ -34,10 +34,15 @@ javafx {
 }
 
 dependencies {
-    implementation("org.kohsuke:github-api:1.313")
     implementation('com.fasterxml.jackson.core:jackson-databind:2.14.0')
     implementation('io.github.cdimascio:dotenv-java:2.3.1')
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testImplementation("org.testfx:testfx-junit5:4.0.16-alpha")
+    testImplementation("org.testfx:testfx-core:4.0.15-alpha")
+//    testImplementation("org.loadui:testFx:3.1.2")
+    testImplementation("org.mockito:mockito-core:4.10.0")
+//    testImplementation("org.hamcrest:hamcrest-core")
+//    testImplementation("org.hamcrest:hamcrest-all")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
 

@@ -43,6 +43,7 @@ public class HtmlInterfacer extends Application {
             Platform.exit();
         }
         // https://medium.com/information-and-technology/test-driven-development-in-javafx-with-testfx-66a84cd561e0
+        // https://www.youtube.com/watch?v=NG03nNpSmgU
         // Write script for compiling
     }
 
