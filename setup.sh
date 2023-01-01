@@ -1,6 +1,6 @@
 echo "HTML Interfacer - Setup"
 echo "This script will ask you a number of questions to setup the program for you."
-echo "It will create a file containing environment vars and compile the application \ninto an executable file."
+echo "It will create a file containing environment vars and compile the application."
 echo "*****************************************************************************"
 echo "Please enter the name of the GitHub account you will access the repo from:"
 read GHOWNER
@@ -22,10 +22,19 @@ echo "Please enter the name of the base branch"
 echo "i.e main or master (ensure the case matches GitHub)"
 read BASE_BRANCH
 
-touch .env
-echo "GHOWNER=${GHOWNER}" >> .env
-echo "GHREPO=${GHREPO}" >> .env
-echo "OAUTH=${OAUTH}" >> .env
-echo "FILES=${FILES}" >> .env
-echo "BASE_BRANCH=${BASE_BRANCH}" >> .env
+./gradlew jlink
+mkdir ../HtmlInterfacer_v1.0
+touch ../HtmlInterfacer_v1.0/.env
+cp -r ./build ../HtmlInterfacer_v1.0
+echo "GHOWNER=${GHOWNER}" >> ../HtmlInterfacer_v1.0/.env
+echo "GHREPO=${GHREPO}" >> ../HtmlInterfacer_v1.0/.env
+echo "OAUTH=${OAUTH}" >> ../HtmlInterfacer_v1.0/.env
+echo "FILES=${FILES}" >> ../HtmlInterfacer_v1.0/.env
+echo "BASE_BRANCH=${BASE_BRANCH}" >> ../HtmlInterfacer_v1.0/.env
+
+touch ../HtmlInterfacer_v1.0/start.sh
+echo "./build/image/bin/com.htmlinterfacer.htmlinterfacer" >> ../HtmlInterfacer_v1.0/start.sh
+echo "*****************************************************************************"
+echo "Setup complete!"
+echo "To run the program head to the HtmlInterfacer_v1.0 directory and run: sh start.sh"
 echo "*****************************************************************************"
