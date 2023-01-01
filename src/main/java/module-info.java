@@ -6,6 +6,7 @@ module com.htmlinterfacer.htmlinterfacer {
     requires com.fasterxml.jackson.databind;
     requires java.net.http;
     requires io.github.cdimascio.dotenv.java;
+    requires jdk.crypto.ec;
 
     opens com.htmlinterfacer.htmlinterfacer to javafx.fxml;
     exports com.htmlinterfacer.htmlinterfacer;
