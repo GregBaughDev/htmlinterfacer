@@ -8,7 +8,6 @@ and open a PR, without having to have a working knowledge of Git or IDEs.
   
 ### WIP - To do
 - Tests
-- Script for compiling to executable
 
 ### Improvements
 
