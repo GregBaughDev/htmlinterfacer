@@ -43,7 +43,6 @@ public class HtmlInterfacer extends Application {
             Platform.exit();
         }
         // https://medium.com/information-and-technology/test-driven-development-in-javafx-with-testfx-66a84cd561e0
-        // Write script for compiling
     }
 
     public static void sceneChange(String fxml) {
