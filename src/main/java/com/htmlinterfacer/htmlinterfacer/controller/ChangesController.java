@@ -1,9 +1,9 @@
 package com.htmlinterfacer.htmlinterfacer.controller;
 
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
+import com.htmlinterfacer.htmlinterfacer.alert.ApplicationAlert;
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
 import com.htmlinterfacer.htmlinterfacer.task.Committer;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -62,10 +62,9 @@ public class ChangesController {
         }
     }
 
-    public EventHandler<ActionEvent> handleFileChange(Integer integer) {
+    public void handleFileChange(Integer integer) {
         currentFile = integer;
         changeView.getEngine().loadContent(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
-        return null;
     }
 
     @FXML
@@ -74,21 +73,12 @@ public class ChangesController {
         HtmlInterfacer.sceneChange("home.fxml");
     }
 
-    public void commitCompleteShowAlert(Alert.AlertType alertType, String title, String content) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        fileLog.writeToLog("Alert shown - Title: " + title + ", Content: " + content);
-        alert.show();
-        alert.setOnCloseRequest(e -> Platform.exit());
-    }
-
     @FXML
     protected void handleCommit() {
         committer.createBackgroundThread(commitBtn, switchView, progressIndicator, progressBar);
         committer.getBackgroundThread().setOnSucceeded(evt -> {
             try {
-                commitCompleteShowAlert(Alert.AlertType.INFORMATION, "Commit complete", "Commit complete - application will now close");
+                ApplicationAlert.createAlert(Alert.AlertType.INFORMATION, "Commit complete", "Commit complete - application will now close");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -96,7 +86,7 @@ public class ChangesController {
         committer.getBackgroundThread().setOnFailed(evt -> {
             try {
                 fileLog.writeToLog("Thread failed on commit");
-                commitCompleteShowAlert(Alert.AlertType.ERROR, "Commit failed", "Commit failed - Application will now quit. Please reload and try again.");
+                ApplicationAlert.createAlert(Alert.AlertType.ERROR, "Commit failed", "Commit failed - Application will now quit. Please reload and try again.");
             } catch (Exception e) {
                 e.printStackTrace();
             }

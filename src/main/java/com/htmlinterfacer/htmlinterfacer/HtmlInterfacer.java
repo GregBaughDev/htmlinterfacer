@@ -1,11 +1,12 @@
 package com.htmlinterfacer.htmlinterfacer;
 
+import com.htmlinterfacer.htmlinterfacer.alert.ApplicationAlert;
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 public class HtmlInterfacer extends Application {
@@ -31,7 +32,7 @@ public class HtmlInterfacer extends Application {
             stage.show();
         } catch (Exception e) {
             fileLog.writeToLog("Start exception: " + e);
-            Platform.exit();
+            ApplicationAlert.createAlert(Alert.AlertType.ERROR, ApplicationAlert.errorTitle, ApplicationAlert.errorBody);
         }
     }
 
@@ -40,11 +41,9 @@ public class HtmlInterfacer extends Application {
             launch();
         } else {
             fileLog.writeToLog("Main Exception - Env vars not populated");
-            Platform.exit();
+            ApplicationAlert.createAlert(Alert.AlertType.ERROR, ApplicationAlert.errorTitle, "The environment variables have not been populated. Please check the .env file and restart the application.");
         }
         // https://medium.com/information-and-technology/test-driven-development-in-javafx-with-testfx-66a84cd561e0
-        // https://www.youtube.com/watch?v=NG03nNpSmgU
-        // Write script for compiling
     }
 
     public static void sceneChange(String fxml) {
