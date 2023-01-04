@@ -1,12 +1,13 @@
 package com.htmlinterfacer.htmlinterfacer.controller;
 
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
+import com.htmlinterfacer.htmlinterfacer.alert.ApplicationAlert;
 import com.htmlinterfacer.htmlinterfacer.task.Initialiser;
 import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.io.IOException;
 
@@ -33,7 +34,7 @@ public class ParentController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Platform.exit();
+            ApplicationAlert.createAlert(Alert.AlertType.ERROR, ApplicationAlert.errorTitle, ApplicationAlert.errorBody);
         });
     }
 

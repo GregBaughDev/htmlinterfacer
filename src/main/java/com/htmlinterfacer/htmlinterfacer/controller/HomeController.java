@@ -1,9 +1,11 @@
 package com.htmlinterfacer.htmlinterfacer.controller;
 
 import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
+import com.htmlinterfacer.htmlinterfacer.alert.ApplicationAlert;
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
@@ -48,7 +50,7 @@ public class HomeController {
             webView.getEngine().loadContent(ParentController.getParentHtmlFileList().get(currentFile).getUpdatedHtml());
         } catch (Exception e) {
             fileLog.writeToLog("Home Controller - Initialise exception: " + e);
-            Platform.exit();
+            ApplicationAlert.createAlert(Alert.AlertType.ERROR, ApplicationAlert.errorTitle, ApplicationAlert.errorBody);
         }
     }
 
