@@ -21,7 +21,7 @@
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin></Text>
-        <Button onAction="#viewChangesList" text="View changed files">
+        <Button onAction="#viewChangesList" text="View changed files" fx:id="changeView">
          <font>
             <Font name="Inter Regular" size="14.0" />
          </font>
@@ -35,14 +35,14 @@
          <VBox.margin>
             <Insets bottom="5.0" />
          </VBox.margin></Button>
-        <Button onAction="#handleReset" text="Reset changes">
+        <Button onAction="#handleReset" text="Reset changes" fx:id="handleReset">
          <font>
             <Font name="Inter Regular" size="14.0" />
          </font>
          <VBox.margin>
             <Insets bottom="5.0" />
          </VBox.margin></Button>
-        <Button onAction="#handleQuit" text="Quit">
+        <Button onAction="#handleQuit" text="Quit" fx:id="handleQuit">
          <font>
             <Font name="Inter Regular" size="14.0" />
          </font></Button>

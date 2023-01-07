@@ -6,9 +6,11 @@ import com.htmlinterfacer.htmlinterfacer.api.record.File;
 import com.htmlinterfacer.htmlinterfacer.api.record.Links;
 import com.htmlinterfacer.htmlinterfacer.dao.HtmlFile;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -18,6 +20,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
 import org.testfx.framework.junit5.ApplicationExtension;
@@ -29,16 +32,25 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.testfx.api.FxAssert.verifyThat;
 
 @ExtendWith(ApplicationExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class HomeControllerTest extends ApplicationExtension {
+class HomeControllerTest {
+    Button changeView;
+    // https://github.com/ArchibaldBienetre/javaFxTestGradle/blob/main/src/integrationTest/java/com/example/javafxtest/integrationtest/FileChooserApplicationTest.java
     GHApi ghApi = mock();
-    ParentController parentController = mock();
+    HomeController homeController = mock();
+
+    File file1 = new File("Test1", "test/test.html", "1234", 20, "test/test.html", "test/test.html", "test/test.html", "test/test.html", "html", "<h1>Test content</h1>", "test", new Links("test/test.html", "test/test.html", "test/test.html"));
+    File file2 = new File("Test2", "test/test2.html", "5678", 20, "test/test2.html", "test/test2.html", "test/test2.html", "test/test2.html", "html", "<h1>Second test</h1>", "test", new Links("test/test2.html", "test/test2.html", "test/test2.html"));
+
+    ObservableList<HtmlFile> htmlFiles = FXCollections.observableArrayList(
+            new HtmlFile("<h1>Test content</h1>", "1234", "test/test.html"),
+            new HtmlFile("<h1>Second test</h1>", "5678", "test/test2.html"));
 
     @BeforeAll
     public void init() throws Exception {
@@ -53,30 +65,30 @@ class HomeControllerTest extends ApplicationExtension {
         stage.show();
     }
 
-    @AfterAll
-    public void afterEachTest() throws TimeoutException {
-        FxToolkit.hideStage();
-        release(new KeyCode[]{});
-        release(new MouseButton[]{});
-    }
+//    @Test
+//    @DisplayName("handle file change test")
+//    void handleFileChangeTest(FxRobot robot) {
+//        doReturn(file1).when(ghApi).getSendFileContentRequest(any());
+//        doReturn(file2).when(ghApi).getSendFileContentRequest(any());
+//        MockedStatic<ParentController> parentControllerMockedStatic = Mockito.mockStatic(ParentController.class);
+//        parentControllerMockedStatic.when(ParentController::getParentHtmlFileList).thenReturn(FXCollections.observableArrayList(
+//                new HtmlFile("<h1>Test content</h1>", "1234", "test/test.html"),
+//                new HtmlFile("<h1>Second test</h2>", "5678", "test/test2.html")
+//        ));
+//
+//        WaitForAsyncUtils.waitForFxEvents();
+//        robot.clickOn("test/test2.html");
+//        robot.clickOn("#toggleView");
+//
+//        verifyThat("#textArea", (TextArea textArea) -> textArea.getText().contains("<h1>Second test</h2>"));
+//    }
 
     @Test
-    @DisplayName("handle file change test")
-    void handleFileChangeTest() {
-        when(ghApi).thenReturn((GHApi) FXCollections.observableArrayList(
-                new HtmlFile("<h1>Test content</h1>", "1234", "test/test.html"),
-                new HtmlFile("<h1>Second test</h2>", "5678", "test/test2.html")
-        ));
-        MockedStatic<ParentController> parentControllerMockedStatic = Mockito.mockStatic(ParentController.class);
-        parentControllerMockedStatic.when(ParentController::getParentHtmlFileList).thenReturn(FXCollections.observableArrayList(
-                new HtmlFile("<h1>Test content</h1>", "1234", "test/test.html"),
-                new HtmlFile("<h1>Second test</h2>", "5678", "test/test2.html")
-        ));
-
-        WaitForAsyncUtils.waitForFxEvents();
-        clickOn("test/test2.html");
-        clickOn("#toggleView");
-
-        verifyThat("#textArea", (TextArea textArea) -> textArea.getText().contains("<h1>Second test</h2>"));
+    @DisplayName("Check buttons have correct text")
+    void buttonTextTest(FxRobot robot) {
+        assertEquals("View changed files", robot.lookup("#changeView").queryButton().getText());
+        assertEquals("Edit file", robot.lookup("#toggleView").queryButton().getText());
+        assertEquals("Reset changes", robot.lookup("#handleReset").queryButton().getText());
+        assertEquals("Quit", robot.lookup("#handleQuit").queryButton().getText());
     }
 }

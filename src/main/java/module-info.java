@@ -2,7 +2,6 @@ module com.htmlinterfacer.htmlinterfacer {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
-    requires org.kohsuke.github.api;
     requires com.fasterxml.jackson.databind;
     requires java.net.http;
     requires io.github.cdimascio.dotenv.java;
