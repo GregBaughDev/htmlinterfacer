@@ -27,7 +27,7 @@ Once the setup script is complete, a folder will be created in the parent direct
 All logging is undertaken in the `filelog.txt` file created by the application.
 
 ### WIP - To do
-- Tests
+- Tests -> There are currently issues with using the TestFX package with module-info.java files so there are currently no GUI tests (as of Jan 23). I will revisit this in future. The only way to add tests is by not having a modularised application but I would be unable to use `jlink` and create a smaller JRE for the application. If anyone can provide any further advice on this, please reach out. 
 
 ### Improvements
 
