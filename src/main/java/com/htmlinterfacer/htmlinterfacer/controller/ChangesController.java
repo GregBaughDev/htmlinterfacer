@@ -49,7 +49,6 @@ public class ChangesController {
                     Integer currValue = i;
                     Button fileButton = new Button(ParentController.getParentHtmlFileList().get(i).getPath());
                     fileButton.setOnAction(e -> handleFileChange(currValue));
-                    fileButton.setFont(Font.font("Inter Regular"));
                     fileButton.setMaxWidth(150);
                     changedBox.getChildren().add(fileButton);
                     commitBtn.setDisable(false);

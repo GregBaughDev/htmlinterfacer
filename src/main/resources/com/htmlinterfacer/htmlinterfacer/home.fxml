@@ -16,39 +16,39 @@
     <VBox fx:id="fileBox" GridPane.columnIndex="0" GridPane.columnSpan="2">
         <Text text="Files">
          <font>
-            <Font name="Inter Bold" size="20.0" />
+            <Font size="20.0" />
          </font>
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin></Text>
         <Button onAction="#viewChangesList" text="View changed files">
          <font>
-            <Font name="Inter Regular" size="14.0" />
+            <Font size="14.0" />
          </font>
          <VBox.margin>
             <Insets bottom="5.0" />
          </VBox.margin></Button>
         <Button fx:id="toggleView" onAction="#onToggleViewClick" text="Edit file">
          <font>
-            <Font name="Inter Regular" size="14.0" />
+            <Font size="14.0" />
          </font>
          <VBox.margin>
             <Insets bottom="5.0" />
          </VBox.margin></Button>
         <Button onAction="#handleReset" text="Reset changes">
          <font>
-            <Font name="Inter Regular" size="14.0" />
+            <Font size="14.0" />
          </font>
          <VBox.margin>
             <Insets bottom="5.0" />
          </VBox.margin></Button>
         <Button onAction="#handleQuit" text="Quit">
          <font>
-            <Font name="Inter Regular" size="14.0" />
+            <Font size="14.0" />
          </font></Button>
         <Text text="Files from repo" underline="true">
          <font>
-            <Font name="Inter Regular" size="16.0" />
+            <Font size="16.0" />
          </font>
          <VBox.margin>
             <Insets bottom="5.0" top="20.0" />
@@ -62,7 +62,7 @@
         <TextArea fx:id="textArea" prefHeight="800" />
         <Button onAction="#save" prefHeight="77.0" prefWidth="265.0" text="Save">
          <font>
-            <Font name="Inter Bold" size="18.0" />
+            <Font size="18.0" />
          </font></Button>
       <GridPane.margin>
          <Insets bottom="20.0" top="20.0" />
