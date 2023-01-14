@@ -23,17 +23,17 @@ echo "i.e main or master (ensure the case matches GitHub)"
 read BASE_BRANCH
 
 ./gradlew jlink
-mkdir ../HtmlInterfacer_v1.0
-touch ../HtmlInterfacer_v1.0/.env
-cp -r ./build ../HtmlInterfacer_v1.0
-echo "GHOWNER=${GHOWNER}" >> ../HtmlInterfacer_v1.0/.env
-echo "GHREPO=${GHREPO}" >> ../HtmlInterfacer_v1.0/.env
-echo "OAUTH=${OAUTH}" >> ../HtmlInterfacer_v1.0/.env
-echo "FILES=${FILES}" >> ../HtmlInterfacer_v1.0/.env
-echo "BASE_BRANCH=${BASE_BRANCH}" >> ../HtmlInterfacer_v1.0/.env
+mkdir ../HtmlInterfacer_v1.1
+touch ../HtmlInterfacer_v1.1/.env
+cp -r ./build ../HtmlInterfacer_v1.1
+echo "GHOWNER=${GHOWNER}" >> ../HtmlInterfacer_v1.1/.env
+echo "GHREPO=${GHREPO}" >> ../HtmlInterfacer_v1.1/.env
+echo "OAUTH=${OAUTH}" >> ../HtmlInterfacer_v1.1/.env
+echo "FILES=${FILES}" >> ../HtmlInterfacer_v1.1/.env
+echo "BASE_BRANCH=${BASE_BRANCH}" >> ../HtmlInterfacer_v1.1/.env
 
-touch ../HtmlInterfacer_v1.0/start.sh
-echo "./build/image/bin/com.htmlinterfacer.htmlinterfacer" >> ../HtmlInterfacer_v1.0/start.sh
+touch ../HtmlInterfacer_v1.1/start.sh
+echo "./build/image/bin/com.htmlinterfacer.htmlinterfacer" >> ../HtmlInterfacer_v1.1/start.sh
 echo "*****************************************************************************"
 echo "Setup complete!"
 echo "To run the program head to the HtmlInterfacer_v1.0 directory and run: sh start.sh"
