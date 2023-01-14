@@ -10,7 +10,7 @@
 
     <Text text="Loading....">
       <font>
-         <Font name="Inter Bold Italic" size="37.0" />
+         <Font size="37.0" />
       </font></Text>
    <columnConstraints>
       <ColumnConstraints />

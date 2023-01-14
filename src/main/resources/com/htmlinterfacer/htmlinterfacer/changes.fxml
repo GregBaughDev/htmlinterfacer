@@ -20,22 +20,22 @@
             <Insets bottom="20.0" top="20.0" />
          </VBox.margin>
          <font>
-            <Font name="Inter Bold" size="20.0" />
+            <Font size="20.0" />
          </font></Text>
         <Button fx:id="commitBtn" disable="true" onAction="#handleCommit" text="Commit changes">
          <font>
-            <Font name="Inter Regular" size="14.0" />
+            <Font size="14.0" />
          </font></Button>
         <Button onAction="#switchView" text="View file list" fx:id="switchView">
          <font>
-            <Font name="Inter Regular" size="14.0" />
+            <Font size="14.0" />
          </font>
          <VBox.margin>
             <Insets bottom="20.0" top="5.0" />
          </VBox.margin></Button>
       <Text layoutX="10.0" layoutY="49.0" text="Updated Files" underline="true">
          <font>
-            <Font name="Inter Regular" size="16.0" />
+            <Font size="16.0" />
          </font>
          <VBox.margin>
             <Insets bottom="5.0" />
@@ -54,7 +54,7 @@
             </VBox.margin>
             <Text text="Saving changes to GitHub" wrappingWidth="196.68182373046875">
                 <font>
-                    <Font name="Inter Regular" size="16.0"/>
+                    <Font size="16.0"/>
                 </font>
             </Text>
             <ProgressBar prefHeight="30.0" prefWidth="697.0" progress="0.0" fx:id="progressBar">
