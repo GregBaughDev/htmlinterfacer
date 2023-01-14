@@ -29,7 +29,8 @@ public class Committer extends Task {
             Button commitBtn,
             Button switchView,
             HBox progressIndicator,
-            ProgressBar progressBar
+            ProgressBar progressBar,
+            StringBuilder branchName
     ) {
         backgroundThread = new Service<>() {
             @Override
@@ -43,19 +44,19 @@ public class Committer extends Task {
                             progressIndicator.setVisible(true);
                             progressBar.setProgress(0.1);
 
-                            String branchName = DateTimeFormatter.ofPattern("dd/MM/yyyy-HH-mm").format(LocalDateTime.now());
+                            branchName.append(DateTimeFormatter.ofPattern("dd/MM/yyyy-HH-mm").format(LocalDateTime.now()));
                             List<Ref> refs = ghApi.getSendRefsRequest();
-                            ghApi.postSendRefsRequest(branchName, refs.get(0).refObject().sha());
+                            ghApi.postSendRefsRequest(branchName.toString(), refs.get(0).refObject().sha());
                             progressBar.setProgress(0.5);
 
                             for (int i = 0; i < ParentController.getParentHtmlFileList().size(); i++) {
                                 if (ParentController.getParentHtmlFileList().get(i).isAltered()) {
-                                    commitChangedFile(branchName, i);
+                                    commitChangedFile(branchName.toString(), i);
                                 }
                             }
                             progressBar.setProgress(0.8);
 
-                            createPr(branchName);
+                            createPr(branchName.toString());
                             progressBar.setProgress(1);
                             return null;
                         } catch (Exception e) {

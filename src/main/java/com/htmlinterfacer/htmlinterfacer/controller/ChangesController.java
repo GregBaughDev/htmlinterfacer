@@ -4,8 +4,6 @@ import com.htmlinterfacer.htmlinterfacer.HtmlInterfacer;
 import com.htmlinterfacer.htmlinterfacer.alert.ApplicationAlert;
 import com.htmlinterfacer.htmlinterfacer.log.FileLog;
 import com.htmlinterfacer.htmlinterfacer.task.Committer;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -75,10 +73,11 @@ public class ChangesController {
 
     @FXML
     protected void handleCommit() {
-        committer.createBackgroundThread(commitBtn, switchView, progressIndicator, progressBar);
+        StringBuilder branchName = new StringBuilder();
+        committer.createBackgroundThread(commitBtn, switchView, progressIndicator, progressBar, branchName);
         committer.getBackgroundThread().setOnSucceeded(evt -> {
             try {
-                ApplicationAlert.createAlert(Alert.AlertType.INFORMATION, "Commit complete", "Commit complete - application will now close");
+                ApplicationAlert.createAlert(Alert.AlertType.INFORMATION, "Commit complete", "Commit complete. \nBranch - " + branchName + "\nThe application will now close");
             } catch (Exception e) {
                 e.printStackTrace();
             }
