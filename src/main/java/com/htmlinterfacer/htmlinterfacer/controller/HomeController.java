@@ -9,7 +9,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
 
 public class HomeController {
@@ -33,6 +32,10 @@ public class HomeController {
     private VBox fileBox;
 
     private Integer currentFile = 0;
+
+    private final String EDIT_FILE = "Edit file";
+
+    private final String VIEW_FILE = "View file";
 
     public HomeController() {
     }
@@ -61,13 +64,13 @@ public class HomeController {
 
     @FXML
     protected void onToggleViewClick() {
-        if (toggleView.getText().equals("Edit file")) {
-            toggleView.setText("View file");
+        if (toggleView.getText().equals(EDIT_FILE)) {
+            toggleView.setText(VIEW_FILE);
             viewBox.setVisible(false);
             editorBox.setVisible(true);
             setTextAreaContent();
         } else {
-            toggleView.setText("Edit file");
+            toggleView.setText(EDIT_FILE);
             viewBox.setVisible(true);
             editorBox.setVisible(false);
             setWebViewContent();
@@ -81,14 +84,14 @@ public class HomeController {
         setWebViewContent();
         viewBox.setVisible(true);
         editorBox.setVisible(false);
-        toggleView.setText("Edit file");
+        toggleView.setText(EDIT_FILE);
     }
 
     @FXML
     protected void viewChangesList() {
         try {
             currentFile = 0;
-            HtmlInterfacer.sceneChange("changes.fxml");
+            HtmlInterfacer.sceneChange(HtmlInterfacer.CHANGES_VIEW);
         } catch (Exception e) {
             fileLog.writeToLog("Home Controller - viewChangesList exception: " + e);
         }

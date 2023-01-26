@@ -23,7 +23,7 @@ public class ParentController {
         initialiser.createBackgroundThread(ParentController.getParentHtmlFileList());
         initialiser.getBackgroundThread().setOnSucceeded(evt -> {
             try {
-                HtmlInterfacer.sceneChange("home.fxml");
+                HtmlInterfacer.sceneChange(HtmlInterfacer.HOME_VIEW);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -13,6 +13,9 @@ public class HtmlInterfacer extends Application {
     private static final Dotenv dotEnv = Dotenv.load();
     private static final FileLog fileLog = new FileLog();
     private static Stage primaryStage;
+    public static final String CHANGES_VIEW = "changes.fxml";
+    public static final String HOME_VIEW = "home.fxml";
+    static final String PARENT_VIEW = "parent.fxml";
 
     public HtmlInterfacer() {
     }
@@ -21,7 +24,7 @@ public class HtmlInterfacer extends Application {
     public void start(Stage stage) {
         try {
             primaryStage = stage;
-            FXMLLoader fxmlLoader = new FXMLLoader(HtmlInterfacer.class.getResource("parent.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HtmlInterfacer.class.getResource(PARENT_VIEW));
             Scene scene = new Scene(fxmlLoader.load());
 
             stage.setTitle("HTMLinterfacer");

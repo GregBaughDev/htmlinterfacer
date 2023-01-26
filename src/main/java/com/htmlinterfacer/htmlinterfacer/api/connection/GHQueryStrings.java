@@ -12,7 +12,8 @@ public enum GHQueryStrings {
     REFS ("refs"),
     RECURSIVE_QUERY ("?recursive=true"),
     OWNER (EnvironmentVars.owner + "/"),
-    REPO (EnvironmentVars.repo + "/");
+    REPO (EnvironmentVars.repo + "/"),
+    OAUTH (EnvironmentVars.oauth);
 
     private final String query;
 
@@ -29,5 +30,6 @@ public enum GHQueryStrings {
 
         private final static String owner = dotenv.get("GHOWNER");
         private final static String repo = dotenv.get("GHREPO");
+        private final static String oauth = dotenv.get("OAUTH");
     }
 }

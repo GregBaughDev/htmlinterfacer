@@ -17,17 +17,13 @@ public class GHApi {
     private final FileLog fileLog = new FileLog();
     private final HttpClient client = HttpClient.newHttpClient();
     private final Dotenv dotenv = Dotenv.load();
-    private final String oauth = dotenv.get("OAUTH");
-
-    public GHApi() {
-    }
 
     private HttpRequest getRepoContentRequest() {
         return HttpRequest
                 .newBuilder()
                 .uri(URI.create(GHQueryURI.GET_REPO_CONTENT_STRING.getQuery()))
-                .header("Accept", "application/vnd.github+json")
-                .header("Authorization", "Bearer " + oauth)
+                .header(GHQueryURI.HEADER_ACCEPT_KEY.getQuery(), GHQueryURI.HEADER_ACCEPT_VALUE.getQuery())
+                .header(GHQueryURI.HEADER_AUTH_KEY.getQuery(), GHQueryURI.HEADER_AUTH_VALUE.getQuery())
                 .GET()
                 .build();
     }
@@ -36,8 +32,8 @@ public class GHApi {
         return HttpRequest
                 .newBuilder()
                 .uri(URI.create(GHQueryURI.GET_FILE_CONTENT_STRING.getQuery() + file))
-                .header("Accept", "application/vnd.github+json")
-                .header("Authorization", "Bearer " + oauth)
+                .header(GHQueryURI.HEADER_ACCEPT_KEY.getQuery(), GHQueryURI.HEADER_ACCEPT_VALUE.getQuery())
+                .header(GHQueryURI.HEADER_AUTH_KEY.getQuery(), GHQueryURI.HEADER_AUTH_VALUE.getQuery())
                 .GET()
                 .build();
     }
@@ -46,8 +42,8 @@ public class GHApi {
         return HttpRequest
                 .newBuilder()
                 .uri(URI.create(GHQueryURI.GET_REFS_STRING.getQuery()))
-                .header("Accept", "application/vnd.github+json")
-                .header("Authorization", "Bearer " + oauth)
+                .header(GHQueryURI.HEADER_ACCEPT_KEY.getQuery(), GHQueryURI.HEADER_ACCEPT_VALUE.getQuery())
+                .header(GHQueryURI.HEADER_AUTH_KEY.getQuery(), GHQueryURI.HEADER_AUTH_VALUE.getQuery())
                 .GET()
                 .build();
     }
@@ -59,8 +55,8 @@ public class GHApi {
         return HttpRequest
                 .newBuilder()
                 .uri(URI.create(GHQueryURI.POST_REFS_STRING.getQuery()))
-                .header("Accept", "application/vnd.github+json")
-                .header("Authorization", "Bearer " + oauth)
+                .header(GHQueryURI.HEADER_ACCEPT_KEY.getQuery(), GHQueryURI.HEADER_ACCEPT_VALUE.getQuery())
+                .header(GHQueryURI.HEADER_AUTH_KEY.getQuery(), GHQueryURI.HEADER_AUTH_VALUE.getQuery())
                 .POST(request)
                 .build();
     }
@@ -74,8 +70,8 @@ public class GHApi {
         return HttpRequest
                 .newBuilder()
                 .uri(URI.create(GHQueryURI.PUT_UPDATE_FILE_STRINGS.getQuery() + path))
-                .header("Accept", "application/vnd.github+json")
-                .header("Authorization", "Bearer " + oauth)
+                .header(GHQueryURI.HEADER_ACCEPT_KEY.getQuery(), GHQueryURI.HEADER_ACCEPT_VALUE.getQuery())
+                .header(GHQueryURI.HEADER_AUTH_KEY.getQuery(), GHQueryURI.HEADER_AUTH_VALUE.getQuery())
                 .PUT(request)
                 .build();
     }
@@ -89,8 +85,8 @@ public class GHApi {
         return HttpRequest
                 .newBuilder()
                 .uri(URI.create(GHQueryURI.POST_CREATE_PR_STRING.getQuery()))
-                .header("Accept", "application/vnd.github+json")
-                .header("Authorization", "Bearer " + oauth)
+                .header(GHQueryURI.HEADER_ACCEPT_KEY.getQuery(), GHQueryURI.HEADER_ACCEPT_VALUE.getQuery())
+                .header(GHQueryURI.HEADER_AUTH_KEY.getQuery(), GHQueryURI.HEADER_AUTH_VALUE.getQuery())
                 .POST(request)
                 .build();
     }
