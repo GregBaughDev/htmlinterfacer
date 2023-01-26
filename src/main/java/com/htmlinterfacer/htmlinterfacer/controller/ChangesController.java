@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
 
 import java.io.IOException;
@@ -67,7 +66,7 @@ public class ChangesController {
     @FXML
     protected void switchView() {
         currentFile = 0;
-        HtmlInterfacer.sceneChange("home.fxml");
+        HtmlInterfacer.sceneChange(HtmlInterfacer.HOME_VIEW);
     }
 
     @FXML

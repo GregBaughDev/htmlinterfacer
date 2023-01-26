@@ -40,7 +40,11 @@ public enum GHQueryURI {
             GHQueryStrings.REPOS.getQuery() +
             GHQueryStrings.OWNER.getQuery() +
             GHQueryStrings.REPO.getQuery() +
-            GHQueryStrings.PULLS.getQuery());
+            GHQueryStrings.PULLS.getQuery()),
+    HEADER_ACCEPT_KEY ("Accept"),
+    HEADER_ACCEPT_VALUE ("application/vnd.github+json"),
+    HEADER_AUTH_KEY ("Authorization"),
+    HEADER_AUTH_VALUE ("Bearer " + GHQueryStrings.OAUTH.getQuery());
 
     private final String queryUri;
 
